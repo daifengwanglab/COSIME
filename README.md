@@ -2,4 +2,4 @@
 
 Cooperative Multiview Integration with Deep Encoders and Optimal Transport (Coop-DOT) is a machine learning model that integrates multi-omics data for disease phenotype prediction. By leveraging deep learning-based encoders, Coop-DOT effectively captures the complex, multi-layered interactions between different omic modalities while preserving the unique characteristics of each data type. The integration of learnable optimal transport (LOT) techniques aligns and merges heterogeneous datasets, improving the accuracy of modeling cross-modality relationships in the joint latent space. After training a Coop-DOT, we apply Scalable and Interpretable Model Explainer (SIME), leveraging the Shapley-Taylor Interaction Index for computing feature importance and interaction, allowing for a deeper understanding of how individual features and their interactions contribute to the model's predictions.
 
-![Title](images/Fig1_Coop_Git.jpeg "Title")
+![Title](images/Fig1_Coop_Git.jpg "Title")
