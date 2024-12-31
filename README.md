@@ -12,7 +12,6 @@ cd COSIME
 ```
 2. Create and activate a virtual environment for python 3.10.14 with `conda`.
 ```bash
-# conda
 conda create -n COSIME python=3.10.14
 conda activate COSIME
 ```
