@@ -5,7 +5,7 @@ Cooperative Multiview Integration and Scalable and Interpretable Model Explainer
 ![Title](images/Fig1_Coop_Git.png "Title")
 
 ## Installation
-1. clone and navigate to the respository.
+1. Clone and navigate to the respository.
 ```bash
 https://github.com/jeromejchoi/COSIME
 cd COSIME
