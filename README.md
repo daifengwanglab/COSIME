@@ -9,4 +9,5 @@ Cooperative Multiview Integration and Scalable and Interpretable Model Explainer
 ```bash
 https://github.com/jeromejchoi/COSIME
 cd COSIME
+```
 3. Create and activate a virtual environment using python 3.10 with conda.
