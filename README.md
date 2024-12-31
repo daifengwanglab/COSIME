@@ -20,7 +20,7 @@ conda activate COSIME
 source COSIME/bin/activate  # on Linux/Mac
 COSIME\Scripts\activate  # on Windows
 ```
-3. Install dependencies with `pip`.
+3. Install dependencies for production and development with `pip`.
 ```bash
 pip install -r requirements.txt
 pip install -r requirements-dev.txt
