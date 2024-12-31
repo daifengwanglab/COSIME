@@ -6,4 +6,7 @@ Cooperative Multiview Integration and Scalable and Interpretable Model Explainer
 
 ## Installation
 1. clone and navigate to the respository.
-2. Create and activate a virtual environment using python 3.10.virtualenv or conda.
+```bash
+https://github.com/jeromejchoi/COSIME
+cd COSIME
+3. Create and activate a virtual environment using python 3.10 with conda.
