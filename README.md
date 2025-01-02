@@ -25,7 +25,7 @@ COSIME\Scripts\activate  # on Windows
 pip install -r requirements.txt
 pip install -r requirements-dev.txt
 ```
-## Example: Simulated data (Binary outcome - early fusion)
+## Example: Simulated data (Binary outcome - high signal & late fusion)
 ### Training and Predicting
 
 ### Computing Feature Importane and Interaction
