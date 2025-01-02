@@ -28,4 +28,4 @@ pip install -r requirements-dev.txt
 ## Example: Simulated data (Binary outcome - early fusion)
 ### Training and Predicting
 
-### Compute Feature Importane and Interaction
+### Computing Feature Importane and Interaction
