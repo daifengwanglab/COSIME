@@ -32,13 +32,13 @@ pip install -r requirements-dev.txt
 ```bash
 
 python main.py \
-  --input_data="/Users/jeromechoi/Documents/jerome/Documents/WISC/BMI/Daifeng Wang/Cooperative learning/Coop_DOT/Results/ROSMAP_late2/Results/padded_data_no_na.csv" \
-  --input_model="/Users/jeromechoi/Documents/jerome/Documents/WISC/BMI/Daifeng Wang/Cooperative learning/Coop_DOT/Results/ROSMAP_late2/Results/best_overall_config_lr_0.000999421929570799_KLD_A_0.029142176782704064_KLD_B_0.02858008241164476_OT_0.05046950040744483_CL_0.9999507032635159.pt" \
-  --model_script_path="/Users/jeromechoi/Documents/jerome/Documents/WISC/BMI/Daifeng Wang/Cooperative learning/Coop_DOT/Manuscript/Refactoring/FI//user_model.py" \
-  --input_dims="305,305" \
+  --input_data="path/data.csv" \
+  --input_model="path/best_model.pt" \
+  --model_script_path="path/user_model.py" \ # Please use your model class.
+  --input_dims="100,100" \ 
   --fusion="late" \
-  --save="/Users/jeromechoi/Documents/jerome/Documents/WISC/BMI/Daifeng Wang/Cooperative learning/Coop_DOT/Results/ROSMAP_late2/Results" \
-  --log="/Users/jeromechoi/Documents/jerome/Documents/WISC/BMI/Daifeng Wang/Cooperative learning/Coop_DOT/Results/ROSMAP_late2/Results/logfile.log" \
+  --save="path/Results" \
+  --log="path/log.log" \
   --dim 150 \
   --dropout 0.5 \
   --mc_iterations 10 \
