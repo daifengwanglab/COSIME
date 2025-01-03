@@ -32,13 +32,13 @@ pip install -r requirements-dev.txt
 ```bash
 
 python main.py \
-  --input_data="path/data.csv" \
-  --input_model="path/best_model.pt" \
-  --model_script_path="path/user_model.py" \ # Please use your model class.
+  --input_data="binary_high_late.df.csv" \
+  --input_model="path/best_model_binary_high_late.pt" \
+  --model_script_path="path/model_binary_high_late.py" \ # Please use your model class.
   --input_dims="100,100" \ 
   --fusion="late" \
   --save="path/Results" \
-  --log="path/log.log" \
+  --log="path/log_binary_high_late.log" \
   --dim 150 \
   --dropout 0.5 \
   --mc_iterations 10 \
