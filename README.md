@@ -33,12 +33,12 @@ pip install -r requirements-dev.txt
 
 python main.py \
   --input_data="binary_high_late.df.csv" \
-  --input_model="path/best_model_binary_high_late.pt" \
-  --model_script_path="path/model_binary_high_late.py" \ # Please use your model class.
+  --input_model="best_model_binary_high_late.pt" \
+  --model_script_path="model_binary_high_late.py" \
   --input_dims="100,100" \ 
   --fusion="late" \
-  --save="path/Results" \
-  --log="path/log_binary_high_late.log" \
+  --save="Results" \
+  --log="log_binary_high_late.log" \
   --dim 150 \
   --dropout 0.5 \
   --mc_iterations 10 \
