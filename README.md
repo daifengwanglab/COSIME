@@ -27,6 +27,28 @@ pip install -r requirements-dev.txt
 ```
 ## Example: Simulated data (Binary outcome - high signal & late fusion)
 ### Training and Predicting
+```bash
+python main.py \
+  --input_data_1="data_1.csv" \
+  --input_data_2="data_2.csv" \
+  --type="binary" \  # or "continuous"
+  --predictor="regression" \ # or "NN" (when continuous)
+  --fusion="early" \ or "late"
+  --batch_size=32 \
+  --learning_rate=0.0001 \
+  --learning_gamma=0.99 \
+  --KLD_A_weight=0.02 \
+  --KLD_B_weight=0.02 \
+  --OT_weight=0.02 \
+  --CL_weight=0.9 \
+  --dropout=0.5 \
+  --dim=100 \
+  --earlystop_patience=40 \
+  --delta=0.001 \
+  --decay=0.001 \
+  --save="/path/to/output" \
+  --log="/path/to/output/logfile.log"
+```
 
 ### Computing Feature Importane and Interaction
 ```bash
