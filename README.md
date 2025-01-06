@@ -55,15 +55,15 @@ python main.py \
 
 python main.py \
   --input_data="binary_high_late.df.csv" \
-  --input_model="best_model_binary_high_late.pt" \
-  --model_script_path="model_binary_high_late.py" \
-  --input_dims="100,100" \ 
-  --fusion="late" \
+  --input_model="best_model_binary_high_late.pt" \ # trained model
+  --model_script_path="model_binary_high_late.py" \ # please use your model class
+  --input_dims="100,100" \ # dimensions in two data
+  --fusion="late" \ # or "early"
   --save="Results" \
   --log="log_binary_high_late.log" \
   --dim 150 \
   --dropout 0.5 \
   --mc_iterations 10 \
   --batch_size 32 \
-  --interaction True
+  --interaction True # False if you need feature importance only
 ```
