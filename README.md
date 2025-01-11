@@ -50,7 +50,7 @@ python main.py \
   --log="/path/to/output/logfile.log"
 ```
 
-### Computing Feature Importane and Interaction
+### Computing Feature Importance and Interaction
 ```bash
 
 python main.py \
