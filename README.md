@@ -67,3 +67,7 @@ python main.py \
   --batch_size 32 \
   --interaction True # False if you need feature importance only
 ```
+
+```bash
+It is estimated to take approximately 1.5 hours on an Apple M1 Max with 10 physical cores and [32GB] of Unified Memory.
+```
