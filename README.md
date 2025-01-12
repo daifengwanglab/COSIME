@@ -131,10 +131,31 @@ python main.py \
   
 #### Results
 | ![Title 1](Images/FI_binary_high_A.png "Title 1") | ![Title 2](Images/FI_binary_high_B.png "Title 2") |
-| *Top 20 absoulte feature importance values (View A)* | *Top 20 absoulte feature importance values (View B)* |
 |:-------------------------------------------------:|:-------------------------------------------------:|
+| *Top 20 absoulte feature importance values (View A)* | *Top 20 absoulte feature importance values (View B)* |
 
 | ![Title 3](Images/SI_binary_high_A.png "Title 3") | ![Title 4](Images/SI_binary_high_B.png "Title 4") |
+|:-------------------------------------------------:|:-------------------------------------------------:|
 | *Pairwise feature interactions for the first 50 features (View A)* | *Pairwise feature interactions for the first 50 features (View B)* |
 
 It is estimated to take approximately 7.53 hours on an Apple M1 Max with 10 physical cores and 32 GB of Unified Memory, or approximately 1.1 hours on an Intel Xeon Gold 6140 system with 36 physical cores, 200 GB of RAM, and 25.3 MB of L3 cache.
+
+<div style="display: flex; justify-content: space-between;">
+
+![Title 1](Images/FI_binary_high_A.png "Title 1")  
+*Legend for Figure 1: Description or legend here*
+
+![Title 2](Images/FI_binary_high_B.png "Title 2")  
+*Legend for Figure 2: Description or legend here*
+
+</div>
+
+<div style="display: flex; justify-content: space-between;">
+
+![Title 3](Images/FI_binary_high_C.png "Title 3")  
+*Legend for Figure 3: Description or legend here*
+
+![Title 4](Images/FI_binary_high_D.png "Title 4")  
+*Legend for Figure 4: Description or legend here*
+
+</div>
