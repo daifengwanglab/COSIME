@@ -25,7 +25,9 @@ COSIME\Scripts\activate  # on Windows
 pip install -r requirements.txt
 pip install -r requirements-dev.txt
 ```
-It is estimated to take approximately 15 minutes on an Apple M1 Max with 10 physical cores and 32 GB of Unified Memory, or approximately 6.42 hours on an Intel Xeon Gold 6140 system with 36 physical cores, 200 GB of RAM, and 25.3 MB of L3 cache.
+Esmitamted time of installing:
+- About 15 minutes on an Apple M1 Max with 10 physical cores and 32 GB of Unified Memory.
+- About 8 minutes on an Intel Xeon Gold 6140 system with 36 physical cores, 200 GB of RAM, and 25.3 MB of L3 cache.
 
 ## Example: Simulated data (Binary outcome - high signal & late fusion)
 ### Training and Predicting
@@ -90,6 +92,9 @@ python main.py \
 #### Results
 ```bash
 ```
+Esmitamted time of running:
+- About 7.53 hours on an Apple M1 Max with 10 physical cores and 32 GB of Unified Memory.
+- About 6.42 hours on an Intel Xeon Gold 6140 system with 36 physical cores, 200 GB of RAM, and 25.3 MB of L3 cache.
 
 
 ### Computing Feature Importance and Interaction
