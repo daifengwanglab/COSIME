@@ -90,13 +90,14 @@ python main.py \
 
 
 #### Results
+```bash
 <p style="text-align: left;">
   <img src="Images/box_binary_high_late.png" alt="Title 1" width="45%" />
 </p>
 <p style="text-align: left;">
   Holdout evaluation (5-fold CV)
 </p>
-
+```
 Esmitamted time of running:
 - About 1.5 hours on an Apple M1 Max with 10 physical cores and 32 GB of Unified Memory.
 - About 0.9 hours on an Intel Xeon Gold 6140 system with 36 physical cores, 200 GB of RAM, and 25.3 MB of L3 cache.
@@ -144,11 +145,11 @@ python main.py \
 #### Results
 | ![Title 1](Images/FI_binary_high_A.png "Title 1") | ![Title 2](Images/FI_binary_high_B.png "Title 2") |
 |:-------------------------------------------------:|:-------------------------------------------------:|
-| *Top 20 absoulte feature importance values (View A)* | *Top 20 absoulte feature importance values (View B)* |
+| Top 20 absoulte feature importance values (View A) | Top 20 absoulte feature importance values (View B) |
 
 | ![Title 3](Images/SI_binary_high_A.png "Title 3") | ![Title 4](Images/SI_binary_high_B.png "Title 4") |
 |:-------------------------------------------------:|:-------------------------------------------------:|
-| *Pairwise feature interactions for the first 50 features (View A)* | *Pairwise feature interactions for the first 50 features (View B)* |
+| Pairwise feature interactions for the first 50 features (View A) | Pairwise feature interactions for the first 50 features (View B) |
 
 Esmitamted time of running:
 - About 7.53 hours on an Apple M1 Max with 10 physical cores and 32 GB of Unified Memory.
