@@ -114,6 +114,7 @@ python main.py \
   --dropout 0.5 \
   --mc_iterations 50 \
   --batch_size 32 \
+  --max_memory_usage_gb 2 \
   --interaction True \
   --save="Results" \
   --log="log_binary_high_late.log" \
@@ -134,6 +135,7 @@ python main.py \
 ##### Monte Carlo and Sampling
 - **mc_iterations**: Number of Monte Carlo sampling iterations.
 - **batch_size**: Number of samples processed together in one forward pass through the model.
+- **max_memory_usage_gb**: Xaximum memory usage in gigabytes (GB) for the model during computation
 - **interaction**: Compute both feature importance and pairwise feature interaction (True) or just feature importance (False).
 
 ##### File Paths
