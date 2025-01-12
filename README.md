@@ -90,9 +90,10 @@ python main.py \
 
 
 #### Results
-<p align="center">
+<p style="text-align: left;">
   <img src="Images/box_binary_high_late.png" alt="Title 1" width="45%" />
-  <br />
+</p>
+<p style="text-align: left;">
   *Holdout evaludation (5-fold CV)*
 </p>
 
