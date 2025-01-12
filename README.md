@@ -138,7 +138,7 @@ python main.py \
 |:-------------------------------------------------:|:-------------------------------------------------:|
 | *Pairwise feature interactions for the first 50 features (View A)* | *Pairwise feature interactions for the first 50 features (View B)* |
 
-It is estimated to take approximately 7.53 hours on an Apple M1 Max with 10 physical cores and 32 GB of Unified Memory, or approximately 1.1 hours on an Intel Xeon Gold 6140 system with 36 physical cores, 200 GB of RAM, and 25.3 MB of L3 cache.
+It is estimated to take approximately 7.53 hours on an Apple M1 Max with 10 physical cores and 32 GB of Unified Memory, or approximately 6.42 hours on an Intel Xeon Gold 6140 system with 36 physical cores, 200 GB of RAM, and 25.3 MB of L3 cache.
 
 
 ## References
