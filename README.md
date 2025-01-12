@@ -52,7 +52,7 @@ python main.py \
 #### Parameters Overview
 
 ##### Input Data
-- **input_data_1**: Input data 1.
+- ***input_data_1***: Input data 1.
 - **input_data_2**: Input data 2.
 
 ##### Model Configuration
