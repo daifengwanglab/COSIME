@@ -49,7 +49,6 @@ python main.py \
   --save="/path/to/output" \
   --log="/path/to/output/logfile.log"
 ```
-The command line arguments are:
 * input_data_1: Input data 1.
 * input_data_2: Input data 2.
 * type: Outcome type, either binary (classification) or continuous (regression).
