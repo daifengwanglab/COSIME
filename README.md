@@ -140,3 +140,6 @@ python main.py \
 
 It is estimated to take approximately 7.53 hours on an Apple M1 Max with 10 physical cores and 32 GB of Unified Memory, or approximately 1.1 hours on an Intel Xeon Gold 6140 system with 36 physical cores, 200 GB of RAM, and 25.3 MB of L3 cache.
 
+
+## References
+Dhamdhere, K., Agarwal, A. & Sundararajan, M. The Shapley Taylor Interaction Index Ver- sion Number: 2. (2019).
