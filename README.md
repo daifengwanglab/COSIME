@@ -134,7 +134,7 @@ python main.py \
 |:-------------------------------------------------:|:-------------------------------------------------:|
 | *Legend for Figure 1: Description or legend here* | *Legend for Figure 2: Description or legend here* |
 
-| ![Title 3](Images/FI_binary_high_C.png "Title 3") | ![Title 4](Images/FI_binary_high_D.png "Title 4") |
+| ![Title 3](Images/SI_binary_high_A.png "Title 3") | ![Title 4](Images/SI_binary_high_B.png "Title 4") |
 |:-------------------------------------------------:|:-------------------------------------------------:|
 | *Legend for Figure 3: Description or legend here* | *Legend for Figure 4: Description or legend here* |
 
