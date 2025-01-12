@@ -37,11 +37,11 @@ python main.py \
   --batch_size=32 \
   --learning_rate=0.0001 \
   --learning_gamma=0.99 \
+  --dropout=0.5 \
   --KLD_A_weight=0.02 \
   --KLD_B_weight=0.02 \
   --OT_weight=0.02 \
   --CL_weight=0.9 \
-  --dropout=0.5 \
   --dim=100 \
   --earlystop_patience=40 \
   --delta=0.001 \
@@ -109,7 +109,7 @@ python main.py \
 #### Parameters Overview
 
 ##### Input Data and Model
-- **input_data_1**: Holdout multi-view dataset (without labels).
+- **input_data**: Holdout multi-view dataset (without labels).
 - **input_model**: Trained model.
 - **model_script_path**: Model class used in training the model.
 - **input_dims**: Dimensions in two input data views.
