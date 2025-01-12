@@ -49,6 +49,9 @@ python main.py \
   --save="/path/to/output" \
   --log="/path/to/output/logfile.log"
 ```
+The command line arguments are:
+*
+
 #### Results
 ```bash
 ```
