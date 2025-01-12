@@ -1,6 +1,6 @@
 # COSIME: Cooperative multi-view integration and Scalable and Interpretable Model Explainer
 
-Cooperative Multiview Integration and Scalable and Interpretable Model Explainer (COSIME) is a machine learning model that integrates multi-view data for disease phenotype prediction and computes feature importance and interaction scores. By leveraging deep learning-based encoders, COSIME effectively captures the complex, multi-layered interactions between different omic modalities while preserving the unique characteristics of each data type. The integration of LOT techniques aligns and merges heterogeneous datasets, improving the accuracy of modeling cross-modality relationships in the joint latent space. After training a model, COSIME leverages the Shapley-Taylor Interaction Index to compute feature importance and interaction values, allowing for a deeper understanding of how individual features and their interactions contribute to the model's predictions.
+Cooperative Multiview Integration and Scalable and Interpretable Model Explainer (COSIME) is a machine learning model that integrates multi-view data for disease phenotype prediction and computes feature importance and interaction scores. By leveraging deep learning-based encoders, COSIME effectively captures the complex, multi-layered interactions between different omic modalities while preserving the unique characteristics of each data type. The integration of LOT techniques aligns and merges heterogeneous datasets, improving the accuracy of modeling across-view relationships in the joint latent space. In addition, COSIME leverages the Shapley-Taylor Interaction Index\cite{Dhamdhere2019a} to compute feature importance and interaction values, allowing for a deeper understanding of how individual features and their interactions contribute to the predictions.
 
 ![Title](Images/Fig1_Coop_Git.png "Title")
 
@@ -49,6 +49,9 @@ python main.py \
   --save="/path/to/output" \
   --log="/path/to/output/logfile.log"
 ```
+#### Results
+```bash
+```
 
 ### Computing Feature Importance and Interaction
 ```bash
@@ -66,5 +69,8 @@ python main.py \
   --mc_iterations 10 \
   --batch_size 32 \
   --interaction True # False if you need feature importance only
+```
+#### Results
+```bash
 ```
 It is estimated to take approximately 1.5 hours on an Apple M1 Max with 10 physical cores and 32 GB of Unified Memory, or approximately 1.1 hours on an Intel Xeon Gold 6140 system with 36 physical cores, 200 GB of RAM, and 25.3 MB of L3 cache.
