@@ -31,8 +31,8 @@ pip install -r requirements-dev.txt
 python main.py \
   --input_data_1="data_1.csv" \
   --input_data_2="data_2.csv" \
-  --type="binary" \  # or "continuous"
-  --predictor="regression" \ # or "NN" (when continuous)
+  --type="binary" \
+  --predictor="regression" \
   --fusion="early" \ or "late"
   --batch_size=32 \
   --learning_rate=0.0001 \
@@ -50,9 +50,26 @@ python main.py \
   --log="/path/to/output/logfile.log"
 ```
 The command line arguments are:
-* input_data_1:
-* input_data_2:
-* 
+* input_data_1: Input data 1.
+* input_data_2: Input data 2.
+* type: Outcome type, either binary (classification) or continuous (regression).
+* predictor: Type of model used for continuous outcomes (regression or NN)
+* fusion: Fusion method (early or late).
+* batch_size: Number of samples processed in one pass.
+* learning rate: Controls how much weights are adjusted during training.
+* learning gamma: Rate at which the learning rate decays during training.
+* KLD_A_weight: Weight for the KLD loss (view A).
+* KLD_B_weight: Weight for the KLD loss (view B).
+* OT_weight: Weight for the LOT loss.
+* CL_weight: Weight for the prediction loss.
+* dropout: Probability of randomly dropping neurons during training to prevent overfitting.
+* dim: Size of the joint latent space where multiple views are represented.
+* earlystop_patience: Number of epochs to wait without improvement before stopping training.
+* delta: Minimum improvement required to reset early stopping counter.
+* decay: How much the learning rate decreases during training.
+* save: Path to save model outputs and history (training history, holdout evaluation history, and the best model).
+* log: Path to save the training logs.
+
 #### Results
 ```bash
 ```
