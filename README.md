@@ -76,21 +76,33 @@ python main.py \
 
 ### Computing Feature Importance and Interaction
 ```bash
-
 python main.py \
   --input_data="binary_high_late.df.csv" \
-  --input_model="best_model_binary_high_late.pt" \ # trained model
-  --model_script_path="model_binary_high_late.py" \ # please use your model class
-  --input_dims="100,100" \ # dimensions in two data
-  --fusion="late" \ # or "early"
-  --save="Results" \
-  --log="log_binary_high_late.log" \
+  --input_model="best_model_binary_high_late.pt" \
+  --model_script_path="model_binary_high_late.py" \
+  --input_dims="100,100" \ 
+  --fusion="late" \
   --dim 150 \
   --dropout 0.5 \
   --mc_iterations 10 \
   --batch_size 32 \
-  --interaction True # False if you need feature importance only
+  --interaction True
+  --save="Results" \
+  --log="log_binary_high_late.log" \
 ```
+* input_data_1: Holdout multi-view dataset (without labels).
+* input_model: Trained model.
+* model_script_path: Model class in training the model.
+* input_dims: Dimensions in two input data views.
+* fusion: Fusion method (early or late).
+* dim: Size of the joint latent space where multiple views are represented.
+* dropout: Probability of randomly dropping neurons during training to prevent overfitting.
+* mc_iterations: Number of Monte Carlo sampling iterations.
+* batch_size: Number of samples processed together in one forward pass through the model, controlling memory usage and computational efficiency.
+* interaction: Compute both feature importance and pairwise feature interaction (True).
+* save: Path to save the outputs.
+* log: Path to save the training logs.
+  
 #### Results
 ```bash
 ```
