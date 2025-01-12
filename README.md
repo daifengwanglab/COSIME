@@ -90,10 +90,11 @@ python main.py \
 
 
 #### Results
-<div style="width: 48%; text-align: center;">
-  ![Title 1](Images/box_binary_high_late.png "Title 1")  
+<p align="center">
+  <img src="Images/box_binary_high_late.png" alt="Title 1" width="45%" />
+  <br />
   *Holdout evaludation (5-fold CV)*
-</div>
+</p>
 
 Esmitamted time of running:
 - About 1.5 hours on an Apple M1 Max with 10 physical cores and 32 GB of Unified Memory.
