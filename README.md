@@ -102,7 +102,7 @@ python main.py \
   --dropout 0.5 \
   --mc_iterations 50 \
   --batch_size 32 \
-  --interaction True
+  --interaction True \
   --save="Results" \
   --log="log_binary_high_late.log" \
 ```
