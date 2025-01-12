@@ -49,6 +49,9 @@ python main.py \
   --save="/path/to/output" \
   --log="/path/to/output/logfile.log"
 ```
+#### Results
+```bash
+```
 
 ### Computing Feature Importance and Interaction
 ```bash
@@ -66,5 +69,8 @@ python main.py \
   --mc_iterations 10 \
   --batch_size 32 \
   --interaction True # False if you need feature importance only
+```
+#### Results
+```bash
 ```
 It is estimated to take approximately 1.5 hours on an Apple M1 Max with 10 physical cores and 32 GB of Unified Memory, or approximately 1.1 hours on an Intel Xeon Gold 6140 system with 36 physical cores, 200 GB of RAM, and 25.3 MB of L3 cache.
