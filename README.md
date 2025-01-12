@@ -33,7 +33,7 @@ python main.py \
   --input_data_2="data_2.csv" \
   --type="binary" \
   --predictor="regression" \
-  --fusion="early" \ or "late"
+  --fusion="early" \
   --batch_size=32 \
   --learning_rate=0.0001 \
   --learning_gamma=0.99 \
