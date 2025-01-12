@@ -49,25 +49,41 @@ python main.py \
   --save="/path/to/output" \
   --log="/path/to/output/logfile.log"
 ```
-* input_data_1: Input data 1.
-* input_data_2: Input data 2.
-* type: Outcome type, either binary (classification) or continuous (regression).
-* predictor: Type of model used for continuous outcomes (regression or NN)
-* fusion: Fusion method (early or late).
-* batch_size: Number of samples processed in one pass.
-* learning rate: Controls how much weights are adjusted during training.
-* learning gamma: Rate at which the learning rate decays during training.
-* KLD_A_weight: Weight for the KLD loss (view A).
-* KLD_B_weight: Weight for the KLD loss (view B).
-* OT_weight: Weight for the LOT loss.
-* CL_weight: Weight for the prediction loss.
-* dropout: Probability of randomly dropping neurons during training to prevent overfitting.
-* dim: Size of the joint latent space where multiple views are represented.
-* earlystop_patience: Number of epochs to wait without improvement before stopping training.
-* delta: Minimum improvement required to reset early stopping counter.
-* decay: How much the learning rate decreases during training.
-* save: Path to save model outputs and history (training history, holdout evaluation history, and the best model).
-* log: Path to save the training logs.
+# Parameters Overview
+
+## Input Data
+- **input_data_1**: Input data 1.
+- **input_data_2**: Input data 2.
+
+## Model Configuration
+- **type**: Outcome type, either binary (classification) or continuous (regression).
+- **predictor**: Type of model used for continuous outcomes (regression or NN).
+- **fusion**: Fusion method (early or late).
+
+## Training Settings
+- **batch_size**: Number of samples processed in one pass.
+- **learning rate**: Controls how much weights are adjusted during training.
+- **learning gamma**: Rate at which the learning rate decays during training.
+- **dropout**: Probability of randomly dropping neurons during training to prevent overfitting.
+
+## Loss Weights
+- **KLD_A_weight**: Weight for the KLD loss (view A).
+- **KLD_B_weight**: Weight for the KLD loss (view B).
+- **OT_weight**: Weight for the LOT loss.
+- **CL_weight**: Weight for the prediction loss.
+
+## Latent Space
+- **dim**: Size of the joint latent space where multiple views are represented.
+
+## Stopping and Regularization
+- **earlystop_patience**: Number of epochs to wait without improvement before stopping training.
+- **delta**: Minimum improvement required to reset early stopping counter.
+- **decay**: How much the learning rate decreases during training.
+
+## File Paths
+- **save**: Path to save model outputs and history (training history, holdout evaluation history, and the best model).
+- **log**: Path to save the training logs.
+
 
 #### Results
 ```bash
@@ -90,18 +106,28 @@ python main.py \
   --save="Results" \
   --log="log_binary_high_late.log" \
 ```
-* input_data_1: Holdout multi-view dataset (without labels).
-* input_model: Trained model.
-* model_script_path: Model class in training the model.
-* input_dims: Dimensions in two input data views.
-* fusion: Fusion method (early or late).
-* dim: Size of the joint latent space where multiple views are represented.
-* dropout: Probability of randomly dropping neurons during training to prevent overfitting.
-* mc_iterations: Number of Monte Carlo sampling iterations.
-* batch_size: Number of samples processed together in one forward pass through the model.
-* interaction: Compute both feature importance and pairwise feature interaction (True) or just feature importance (False).
-* save: Path to save the outputs.
-* log: Path to save the training logs.
+# Parameters Overview
+
+## Input Data and Model
+- **input_data_1**: Holdout multi-view dataset (without labels).
+- **input_model**: Trained model.
+- **model_script_path**: Model class used in training the model.
+- **input_dims**: Dimensions in two input data views.
+
+## Model Configuration
+- **fusion**: Fusion method (early or late).
+- **dim**: Size of the joint latent space where multiple views are represented.
+- **dropout**: Probability of randomly dropping neurons during training to prevent overfitting.
+
+## Monte Carlo and Sampling
+- **mc_iterations**: Number of Monte Carlo sampling iterations.
+- **batch_size**: Number of samples processed together in one forward pass through the model.
+- **interaction**: Compute both feature importance and pairwise feature interaction (True) or just feature importance (False).
+
+## File Paths
+- **save**: Path to save the outputs.
+- **log**: Path to save the training logs.
+
   
 #### Results
 ```bash
