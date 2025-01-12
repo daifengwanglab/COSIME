@@ -31,17 +31,17 @@ pip install -r requirements-dev.txt
 python main.py \
   --input_data_1="data_1.csv" \
   --input_data_2="data_2.csv" \
-  --type="binary" \  # or "continuous"
-  --predictor="regression" \ # or "NN" (when continuous)
-  --fusion="early" \ or "late"
+  --type="binary" \
+  --predictor="regression" \
+  --fusion="early" \
   --batch_size=32 \
   --learning_rate=0.0001 \
   --learning_gamma=0.99 \
+  --dropout=0.5 \
   --KLD_A_weight=0.02 \
   --KLD_B_weight=0.02 \
   --OT_weight=0.02 \
   --CL_weight=0.9 \
-  --dropout=0.5 \
   --dim=100 \
   --earlystop_patience=40 \
   --delta=0.001 \
@@ -49,28 +49,93 @@ python main.py \
   --save="/path/to/output" \
   --log="/path/to/output/logfile.log"
 ```
+#### Parameters Overview
+
+##### Input Data
+- **input_data_1**: Input data 1.
+- **input_data_2**: Input data 2.
+
+##### Model Configuration
+- **type**: Outcome type, either binary (classification) or continuous (regression).
+- **predictor**: Type of model used for continuous outcomes (regression or NN).
+- **fusion**: Fusion method (early or late).
+
+##### Training Settings
+- **batch_size**: Number of samples processed in one pass.
+- **learning rate**: Controls how much weights are adjusted during training.
+- **learning gamma**: Rate at which the learning rate decays during training.
+- **dropout**: Probability of randomly dropping neurons during training to prevent overfitting.
+
+##### Loss Weights
+- **KLD_A_weight**: Weight for the KLD loss (view A).
+- **KLD_B_weight**: Weight for the KLD loss (view B).
+- **OT_weight**: Weight for the LOT loss.
+- **CL_weight**: Weight for the prediction loss.
+
+##### Latent Space
+- **dim**: Size of the joint latent space where multiple views are represented.
+
+##### Stopping and Regularization
+- **earlystop_patience**: Number of epochs to wait without improvement before stopping training.
+- **delta**: Minimum improvement required to reset early stopping counter.
+- **decay**: How much the learning rate decreases during training.
+
+##### File Paths
+- **save**: Path to save model outputs and history (training history, holdout evaluation history, and the best model).
+- **log**: Path to save the training logs.
+
+
 #### Results
 ```bash
 ```
+
 
 ### Computing Feature Importance and Interaction
 ```bash
-
 python main.py \
   --input_data="binary_high_late.df.csv" \
-  --input_model="best_model_binary_high_late.pt" \ # trained model
-  --model_script_path="model_binary_high_late.py" \ # please use your model class
-  --input_dims="100,100" \ # dimensions in two data
-  --fusion="late" \ # or "early"
-  --save="Results" \
-  --log="log_binary_high_late.log" \
+  --input_model="best_model_binary_high_late.pt" \
+  --model_script_path="model_binary_high_late.py" \
+  --input_dims="100,100" \ 
+  --fusion="late" \
   --dim 150 \
   --dropout 0.5 \
-  --mc_iterations 10 \
+  --mc_iterations 50 \
   --batch_size 32 \
-  --interaction True # False if you need feature importance only
+  --interaction True \
+  --save="Results" \
+  --log="log_binary_high_late.log" \
 ```
+#### Parameters Overview
+
+##### Input Data and Model
+- **input_data**: Holdout multi-view dataset (without labels).
+- **input_model**: Trained model.
+- **model_script_path**: Model class used in training the model.
+- **input_dims**: Dimensions in two input data views.
+
+##### Model Configuration
+- **fusion**: Fusion method (early or late).
+- **dim**: Size of the joint latent space where multiple views are represented.
+- **dropout**: Probability of randomly dropping neurons during training to prevent overfitting.
+
+##### Monte Carlo and Sampling
+- **mc_iterations**: Number of Monte Carlo sampling iterations.
+- **batch_size**: Number of samples processed together in one forward pass through the model.
+- **interaction**: Compute both feature importance and pairwise feature interaction (True) or just feature importance (False).
+
+##### File Paths
+- **save**: Path to save the outputs.
+- **log**: Path to save the training logs.
+
+  
 #### Results
-```bash
-```
-It is estimated to take approximately 1.5 hours on an Apple M1 Max with 10 physical cores and 32 GB of Unified Memory, or approximately 1.1 hours on an Intel Xeon Gold 6140 system with 36 physical cores, 200 GB of RAM, and 25.3 MB of L3 cache.
+| ![Title 1](Images/FI_binary_high_A.png "Title 1") | ![Title 2](Images/FI_binary_high_B.png "Title 2") |
+|:-------------------------------------------------:|:-------------------------------------------------:|
+| *Legend for Figure 1: Description or legend here* | *Legend for Figure 2: Description or legend here* |
+
+| ![Title 3](Images/FI_binary_high_C.png "Title 3") | ![Title 4](Images/FI_binary_high_D.png "Title 4") |
+|:-------------------------------------------------:|:-------------------------------------------------:|
+| *Legend for Figure 3: Description or legend here* | *Legend for Figure 4: Description or legend here* |
+
+It is estimated to take approximately 7.53 hours on an Apple M1 Max with 10 physical cores and 32 GB of Unified Memory, or approximately 1.1 hours on an Intel Xeon Gold 6140 system with 36 physical cores, 200 GB of RAM, and 25.3 MB of L3 cache.
