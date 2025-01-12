@@ -98,8 +98,8 @@ python main.py \
 * dim: Size of the joint latent space where multiple views are represented.
 * dropout: Probability of randomly dropping neurons during training to prevent overfitting.
 * mc_iterations: Number of Monte Carlo sampling iterations.
-* batch_size: Number of samples processed together in one forward pass through the model, controlling memory usage and computational efficiency.
-* interaction: Compute both feature importance and pairwise feature interaction (True).
+* batch_size: Number of samples processed together in one forward pass through the model.
+* interaction: Compute both feature importance and pairwise feature interaction (True) or just feature importance (False).
 * save: Path to save the outputs.
 * log: Path to save the training logs.
   
