@@ -94,7 +94,7 @@ python main.py \
   <img src="Images/box_binary_high_late.png" alt="Title 1" width="45%" />
 </p>
 <p style="text-align: left;">
-  *Holdout evaludation (5-fold CV)*
+  Holdout evaluation (5-fold CV)
 </p>
 
 Esmitamted time of running:
