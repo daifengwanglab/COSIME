@@ -17,8 +17,8 @@ conda create -n COSIME python=3.10.14
 conda activate COSIME
 
 # virtualenv
-source COSIME/bin/activate  # on Linux/Mac
-COSIME\Scripts\activate  # on Windows
+source COSIME/bin/activate
+COSIME\Scripts\activate
 ```
 3. Install dependencies for production and development with `pip`.
 ```bash
