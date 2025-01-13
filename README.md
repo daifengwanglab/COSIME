@@ -25,7 +25,7 @@ COSIME\Scripts\activate
 pip install -r requirements.txt
 pip install -r requirements-dev.txt
 ```
-#### Esmitamted time of installing:
+#### Estimated time of installing:
 - About 2~3 minutes and 30 seconds for requirements and requirements-dev, respectively on an Apple M1 Max with 10 physical cores and 32 GB of Unified Memory.
 
 ## Example: Simulated data (Binary outcome - high signal & late fusion)
@@ -96,7 +96,7 @@ python main.py \
   Holdout evaluation (5-fold CV)
 </p>
 
-#### Esmitamted time of running:
+#### Estimated time of running:
 - About 1.5 hours on an Apple M1 Max with 10 physical cores and 32 GB of Unified Memory.
 - About 0.9 hours on an Intel Xeon Gold 6140 system with 36 physical cores, 200 GB of RAM, and 25.3 MB of L3 cache.
 
@@ -151,7 +151,7 @@ python main.py \
 |:-------------------------------------------------:|:-------------------------------------------------:|
 | Pairwise feature interactions for the first 50 features (View A) | Pairwise feature interactions for the first 50 features (View B) |
 
-#### Esmitamted time of running:
+#### Estimated time of running:
 - About 7.53 hours on an Apple M1 Max with 10 physical cores and 32 GB of Unified Memory.
 - About 4.44 hours on an Intel Xeon Gold 6140 system with 36 physical cores, 200 GB of RAM, and 25.3 MB of L3 cache.
 
