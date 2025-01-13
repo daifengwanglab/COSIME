@@ -154,7 +154,7 @@ python main.py \
 
 #### Esmitamted time of running:
 - About 7.53 hours on an Apple M1 Max with 10 physical cores and 32 GB of Unified Memory.
-- About 6.42 hours on an Intel Xeon Gold 6140 system with 36 physical cores, 200 GB of RAM, and 25.3 MB of L3 cache.
+- About 4.44 hours on an Intel Xeon Gold 6140 system with 36 physical cores, 200 GB of RAM, and 25.3 MB of L3 cache.
 
 
 ## References
