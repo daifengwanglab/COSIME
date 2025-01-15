@@ -1,6 +1,7 @@
 numpy 
 torch 
 pandas 
+ray[tune]
 scikit-learn 
 tqdm 
 matplotlib 
