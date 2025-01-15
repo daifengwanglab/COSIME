@@ -55,8 +55,8 @@ python main.py \
 #### Parameters Overview
 
 ##### Input Data
-- **input_data_1**: Input data 1.
-- **input_data_2**: Input data 2.
+- **input_data_1**: Input data view 1.
+- **input_data_2**: Input data view 2.
 
 ##### Model Configuration
 - **type**: Outcome type, either binary (classification) or continuous (regression).
