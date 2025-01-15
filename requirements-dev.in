@@ -1,0 +1,19 @@
+# Development dependencies for your project
+
+# Testing
+pytest
+
+# Code formatting
+black
+
+# Linting
+flake8
+
+# Type checking
+mypy
+
+# Build tools
+tox
+
+# Dependency management tool
+pip-tools
