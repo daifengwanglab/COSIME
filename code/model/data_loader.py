@@ -1,11 +1,15 @@
-# data_loader.py
-
 import pandas as pd
 
-def load_data(input_data_1, input_data_2):
-    data_1 = pd.read_csv(input_data_1)
-    data_2 = pd.read_csv(input_data_2)
+def load_data(*datasets, **kwargs):
+    processed_datasets = []
+    for data_path in datasets:
+        data = pd.read_csv(data_path, index_col=0)
+        X, y = data.drop(columns='y'), data['y']
 
-    # Apply any necessary preprocessing here
-    # For example: normalization, missing value imputation, etc.
-    return data_1, data_2
+        # Apply any necessary preprocessing here
+        # TODO
+
+        # Append
+        processed_datasets.append((X, y))
+
+    return processed_datasets

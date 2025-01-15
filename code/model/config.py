@@ -1,5 +1,3 @@
-# config.py
-
 class Config:
     # Hyperparameters
     batch_size = 32

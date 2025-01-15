@@ -1,7 +1,5 @@
-# utils.py
-
 import logging
 
-def log_results(epoch, loss, config):
-    logging.basicConfig(filename=config['log_path'], level=logging.INFO)
-    logging.info(f"Epoch [{epoch}/{config['epochs']}], Loss: {loss.item()}")
+def log_results(epoch, loss, epochs, log_path, **kwargs):
+    logging.basicConfig(filename=log_path, level=logging.INFO)
+    logging.info(f"Epoch [{epoch}/{epochs}], Loss: {loss.item()}")
