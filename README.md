@@ -70,10 +70,10 @@ python main.py \
 - **dropout**: Probability of randomly dropping neurons during training to prevent overfitting.
 
 ##### Loss Weights
-- **KLD_A_weight**: Weight for the KLD loss (view A).
-- **KLD_B_weight**: Weight for the KLD loss (view B).
-- **OT_weight**: Weight for the LOT loss.
-- **CL_weight**: Weight for the prediction loss.
+- **kld_1_weight**: Weight for the KLD loss (view A).
+- **kld_2_weight**: Weight for the KLD loss (view B).
+- **ot_weight**: Weight for the LOT loss.
+- **cl_weight**: Weight for the prediction loss.
 
 ##### Latent Space
 - **dim**: Size of the joint latent space where multiple views are represented.
