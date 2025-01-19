@@ -26,7 +26,7 @@ pip install -r requirements.txt
 pip install -r requirements-dev.txt
 ```
 #### Estimated time of installing:
-- About 2~3 minutes and 30 seconds for requirements and requirements-dev, respectively on an Apple M1 Max with 10 physical cores and 32 GB of Unified Memory.
+- About 2~3 minutes for requirements and requirements-dev, respectively on an Apple M1 Max with 10 physical cores and 32 GB of Unified Memory.
 
 ## Example: Simulated data (Binary outcome - high signal & late fusion)
 ### Training and Predicting
