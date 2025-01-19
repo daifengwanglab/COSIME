@@ -32,8 +32,8 @@ pip install -r requirements-dev.txt
 ### Training and Predicting
 ```bash
 python main.py \
-  --input_data_1="data_path/data_1.csv" \
-  --input_data_2="data_path/data_2.csv" \
+  --input_data_1="Example/binary_high_late_x1.csv" \
+  --input_data_2="Example/binary_high_late_x2.csv" \
   --type="binary" \
   --predictor="regression" \
   --fusion="early" \
@@ -49,8 +49,8 @@ python main.py \
   --earlystop_patience=40 \
   --delta=0.001 \
   --decay=0.001 \
-  --save="/path/output" \
-  --log="/path/output/logfile.log"
+  --save="/Example/output" \
+  --log="/Example/output/logfile.log"
 ```
 #### Parameters Overview
 
@@ -104,8 +104,8 @@ python main.py \
 ### Computing Feature Importance and Interaction
 ```bash
 python main.py \
-  --input_data="data_path/binary_high_late.df.csv" \
-  --input_model="model_path/best_model_binary_high_late.pt" \
+  --input_data="Example/binary_high_late.df.csv" \
+  --input_model="Example/best_model_binary_high_late.pt" \
   --model_script_path="model_binary_high_late.py" \
   --input_dims="100,100" \ 
   --fusion="late" \
@@ -115,8 +115,8 @@ python main.py \
   --batch_size 32 \
   --max_memory_usage_gb 2 \
   --interaction True \
-  --save="path/output/Results" \
-  --log="path/output/log_binary_high_late.log" \
+  --save="Example/output/Results" \
+  --log="Example/output/log_binary_high_late.log" \
 ```
 #### Parameters Overview
 
