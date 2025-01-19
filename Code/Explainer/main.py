@@ -93,32 +93,41 @@ def main():
     parser.add_argument('--dim', type=int, default=150, help="The dimension for the model (default: 150)")
     parser.add_argument('--dropout', type=float, default=0.5, help="Dropout rate for the model (default: 0.5)")
     parser.add_argument('--mc_iterations', type=int, default=10, help="Number of Monte Carlo iterations")
-    parser.add_argument('--batch_size', type=int, default=10, help="Batch size (default: 32)")
+    parser.add_argument('--batch_size', type=int, default=32, help="Batch size (default: 32)")
     parser.add_argument('--interaction', type=bool, default=True, help="Whether to compute interaction effects (default: True)")
-
+    
+    parser.add_argument('--max_memory_usage_gb', type=float, default=2.0, help="Max memory usage in GB (default: 2.0)")
     parser.add_argument('--input_dims', required=True, type=str, help="Input dimensions in the form 'dim1,dim2' (e.g., '100,100')")
-
     parser.add_argument('--model_script_path', type=str, required=True, help="Path to the user's model script.")
     
     args = parser.parse_args()
     
     input_dims = tuple(map(int, args.input_dims.split(',')))
 
+    # Setup the logger
     logger = setup_logger(args.log)
 
+    # Load the input data
     X = load_data(args.input_data)
 
+    # Load and wrap the model
     model = load_and_wrap_model(args.input_model, args.model_script_path, input_dims, dim=args.dim, dropout=args.dropout)
 
+    # Compute Shapley values based on the fusion type
     if args.fusion == 'early':
         shapley_matrix, interaction_matrix = monte_carlo_shapley_early_fusion(
-            model, X, mc_iterations=args.mc_iterations, batch_size=args.batch_size, interaction=args.interaction, logger=logger
+            model, X, mc_iterations=args.mc_iterations, 
+            batch_size=args.batch_size, interaction=args.interaction, 
+            max_memory_usage_gb=args.max_memory_usage_gb, logger=logger
         )
     elif args.fusion == 'late':
         shapley_matrix, interaction_matrix = monte_carlo_shapley_late_fusion(
-            model, X, mc_iterations=args.mc_iterations, batch_size=args.batch_size, interaction=args.interaction, logger=logger
+            model, X, mc_iterations=args.mc_iterations, 
+            batch_size=args.batch_size, interaction=args.interaction, 
+            max_memory_usage_gb=args.max_memory_usage_gb, logger=logger
         )
 
+    # Save the results
     os.makedirs(args.save, exist_ok=True)
     
     shapley_file = os.path.join(args.save, 'shapley_values.csv')
