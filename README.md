@@ -131,7 +131,7 @@ python Code/Explainer/main.py \
 - **dim**: Size of the joint latent space where multiple views are represented.
 - **dropout**: Probability of randomly dropping neurons during training to prevent overfitting.
 
-##### Monte Carlo and Sampling
+##### Monte Carlo Sampling and Memory
 - **mc_iterations**: Number of Monte Carlo sampling iterations.
 - **batch_size**: Number of samples processed together in one forward pass through the model.
 - **max_memory_usage_gb**: Xaximum memory usage in gigabytes (GB) for the model during computation
