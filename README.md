@@ -32,8 +32,8 @@ pip install -r requirements-dev.txt
 ### Training and Predicting
 ```bash
 python main.py \
-  --input_data_1="data_1.csv" \
-  --input_data_2="data_2.csv" \
+  --input_data_1="data_path/data_1.csv" \
+  --input_data_2="data_path/data_2.csv" \
   --type="binary" \
   --predictor="regression" \
   --fusion="early" \
@@ -41,16 +41,16 @@ python main.py \
   --learning_rate=0.0001 \
   --learning_gamma=0.99 \
   --dropout=0.5 \
-  --KLD_A_weight=0.02 \
-  --KLD_B_weight=0.02 \
-  --OT_weight=0.02 \
-  --CL_weight=0.9 \
+  --kld_1_weight=0.02 \
+  --kld_2_weight=0.02 \
+  --ot_weight=0.02 \
+  --cl_weight=0.9 \
   --dim=100 \
   --earlystop_patience=40 \
   --delta=0.001 \
   --decay=0.001 \
-  --save="/path/to/output" \
-  --log="/path/to/output/logfile.log"
+  --save="/path/output" \
+  --log="/path/output/logfile.log"
 ```
 #### Parameters Overview
 
