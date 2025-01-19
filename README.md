@@ -106,7 +106,7 @@ python Code/Model/main.py \
 python Code/Explainer/main.py \
   --input_data="Example/binary_high_late.df.csv" \
   --input_model="Example/best_model_binary_high_late.pt" \
-  --model_script_path="model_binary_high_late.py" \
+  --model_script_path="Example/model_binary_high_late.py" \
   --input_dims="100,100" \ 
   --fusion="late" \
   --dim 150 \
