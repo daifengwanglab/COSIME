@@ -49,8 +49,8 @@ python Code/Model/main.py \
   --earlystop_patience=40 \
   --delta=0.001 \
   --decay=0.001 \
-  --save="/Example/output" \
-  --log="/Example/output/logfile.log"
+  --save="Example" \
+  --log="Example/training.log"
 ```
 #### Parameters Overview
 
@@ -116,7 +116,7 @@ python Code/Explainer/main.py \
 --max_memory_usage_gb 2 \
 --interaction True \
 --save="Example" \
---log="Example/log_binary_high_late.log"
+--log="Example/binary_high_late.log"
 ```
 #### Parameters Overview
 
