@@ -104,19 +104,19 @@ python Code/Model/main.py \
 ### Computing Feature Importance and Interaction
 ```bash
 python Code/Explainer/main.py \
-  --input_data="Example/binary_high_late.df.csv" \
-  --input_model="Example/best_model_binary_high_late.pt" \
-  --model_script_path="Example/model_binary_high_late.py" \
-  --input_dims="100,100" \ 
-  --fusion="late" \
-  --dim 150 \
-  --dropout 0.5 \
-  --mc_iterations 50 \
-  --batch_size 32 \
-  --max_memory_usage_gb 2 \
-  --interaction True \
-  --save="Example/output/Results" \
-  --log="Example/output/log_binary_high_late.log" \
+--input_data="Example/binary_high_late.df.csv" \
+--input_model="Example/best_model_binary_high_late.pt" \
+--model_script_path="Example/model_binary_high_late.py" \
+--input_dims="100,100" \
+--fusion="late" \
+--dim 150 \
+--dropout 0.5 \
+--mc_iterations 50 \
+--batch_size 32 \
+--max_memory_usage_gb 2 \
+--interaction True \
+--save="Example" \
+--log="Example/log_binary_high_late.log"
 ```
 #### Parameters Overview
 
