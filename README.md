@@ -104,8 +104,8 @@ python main.py \
 ### Computing Feature Importance and Interaction
 ```bash
 python main.py \
-  --input_data="binary_high_late.df.csv" \
-  --input_model="best_model_binary_high_late.pt" \
+  --input_data="data_path/binary_high_late.df.csv" \
+  --input_model="model_path/best_model_binary_high_late.pt" \
   --model_script_path="model_binary_high_late.py" \
   --input_dims="100,100" \ 
   --fusion="late" \
@@ -115,8 +115,8 @@ python main.py \
   --batch_size 32 \
   --max_memory_usage_gb 2 \
   --interaction True \
-  --save="Results" \
-  --log="log_binary_high_late.log" \
+  --save="path/output/Results" \
+  --log="path/output/log_binary_high_late.log" \
 ```
 #### Parameters Overview
 
