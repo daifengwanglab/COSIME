@@ -125,19 +125,24 @@ def compute_weighted_loss(KLD_loss_A, KLD_loss_B, OT_loss, classification_loss, 
     magnitude_KLD_B = KLD_loss_B.item()
     magnitude_OT = OT_loss.item()
     magnitude_CL = classification_loss.item()
-
-    total_magnitude = magnitude_KLD_A + magnitude_KLD_B + magnitude_OT + magnitude_CL
     
     # Inverse losses
-    inverse_magnitude_KLD_A = magnitude_KLD_A / (total_magnitude + 1e-8)  + 1e-8# Adding a small epsilon to avoid division by zero
-    inverse_magnitude_KLD_B = magnitude_KLD_B / (total_magnitude + 1e-8) + 1e-8
-    inverse_magnitude_OT = magnitude_OT / (total_magnitude + 1e-8) + 1e-8
-    inverse_magnitude_CL = magnitude_CL / (total_magnitude + 1e-8) + 1e-8
-
+    inverse_magnitude_KLD_A = 1 / (magnitude_KLD_A + 1e-8)  # Adding a small epsilon to avoid division by zero
+    inverse_magnitude_KLD_B = 1 / (magnitude_KLD_B + 1e-8)
+    inverse_magnitude_OT = 1 / (magnitude_OT + 1e-8)
+    inverse_magnitude_CL = 1 / (magnitude_CL + 1e-8)
+    
+    # Normalize the inversed losses to get adjusted weights
+    total_inverse = inverse_magnitude_KLD_A + inverse_magnitude_KLD_B + inverse_magnitude_OT + inverse_magnitude_CL
+    adj_weight_KLD_A = inverse_magnitude_KLD_A / total_inverse
+    adj_weight_KLD_B = inverse_magnitude_KLD_B / total_inverse
+    adj_weight_OT = inverse_magnitude_OT / total_inverse
+    adj_weight_CL = inverse_magnitude_CL / total_inverse
+    
     # Compute the weighted total loss
-    total_loss = (KLD_A_weight / inverse_magnitude_KLD_A * KLD_loss_A +
-                  KLD_B_weight / inverse_magnitude_KLD_B * KLD_loss_B +
-                  OT_weight / inverse_magnitude_OT * OT_loss +
-                  CL_weight / inverse_magnitude_CL * classification_loss)
+    total_loss = (KLD_A_weight * adj_weight_KLD_A * KLD_loss_A +
+                  KLD_B_weight * adj_weight_KLD_B * KLD_loss_B +
+                  OT_weight * adj_weight_OT * OT_loss +
+                  CL_weight * adj_weight_CL * classification_loss)
     
     return total_loss

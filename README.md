@@ -32,8 +32,8 @@ pip install -r requirements-dev.txt
 ### Training and Predicting
 ```bash
 python main.py \
-  --input_data_1="data_1.csv" \
-  --input_data_2="data_2.csv" \
+  --input_data_1="data_path/data_1.csv" \
+  --input_data_2="data_path/data_2.csv" \
   --type="binary" \
   --predictor="regression" \
   --fusion="early" \
@@ -41,16 +41,16 @@ python main.py \
   --learning_rate=0.0001 \
   --learning_gamma=0.99 \
   --dropout=0.5 \
-  --KLD_A_weight=0.02 \
-  --KLD_B_weight=0.02 \
-  --OT_weight=0.02 \
-  --CL_weight=0.9 \
+  --kld_1_weight=0.02 \
+  --kld_2_weight=0.02 \
+  --ot_weight=0.02 \
+  --cl_weight=0.9 \
   --dim=100 \
   --earlystop_patience=40 \
   --delta=0.001 \
   --decay=0.001 \
-  --save="/path/to/output" \
-  --log="/path/to/output/logfile.log"
+  --save="/path/output" \
+  --log="/path/output/logfile.log"
 ```
 #### Parameters Overview
 
@@ -70,10 +70,10 @@ python main.py \
 - **dropout**: Probability of randomly dropping neurons during training to prevent overfitting.
 
 ##### Loss Weights
-- **KLD_A_weight**: Weight for the KLD loss (view A).
-- **KLD_B_weight**: Weight for the KLD loss (view B).
-- **OT_weight**: Weight for the LOT loss.
-- **CL_weight**: Weight for the prediction loss.
+- **kld_1_weight**: Weight for the KLD loss (view A).
+- **kld_2_weight**: Weight for the KLD loss (view B).
+- **ot_weight**: Weight for the LOT loss.
+- **cl_weight**: Weight for the prediction loss.
 
 ##### Latent Space
 - **dim**: Size of the joint latent space where multiple views are represented.
@@ -104,8 +104,8 @@ python main.py \
 ### Computing Feature Importance and Interaction
 ```bash
 python main.py \
-  --input_data="binary_high_late.df.csv" \
-  --input_model="best_model_binary_high_late.pt" \
+  --input_data="data_path/binary_high_late.df.csv" \
+  --input_model="model_path/best_model_binary_high_late.pt" \
   --model_script_path="model_binary_high_late.py" \
   --input_dims="100,100" \ 
   --fusion="late" \
@@ -115,8 +115,8 @@ python main.py \
   --batch_size 32 \
   --max_memory_usage_gb 2 \
   --interaction True \
-  --save="Results" \
-  --log="log_binary_high_late.log" \
+  --save="path/output/Results" \
+  --log="path/output/log_binary_high_late.log" \
 ```
 #### Parameters Overview
 
