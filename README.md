@@ -31,7 +31,7 @@ pip install -r requirements-dev.txt
 ## Example: Simulated data (Binary outcome - high signal & late fusion)
 ### Training and Predicting
 ```bash
-python main.py \
+python Code/main.py \
   --input_data_1="Example/binary_high_late_x1.csv" \
   --input_data_2="Example/binary_high_late_x2.csv" \
   --type="binary" \
@@ -103,7 +103,7 @@ python main.py \
 
 ### Computing Feature Importance and Interaction
 ```bash
-python main.py \
+python Code/main.py \
   --input_data="Example/binary_high_late.df.csv" \
   --input_model="Example/best_model_binary_high_late.pt" \
   --model_script_path="model_binary_high_late.py" \
