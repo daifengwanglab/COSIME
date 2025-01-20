@@ -116,10 +116,13 @@ def main():
     # Train the model based on the task type (binary or continuous)
     if kwargs['task_type'] == 'binary':
         model, history, holdout_history, best_predicted_values, best_actual_values = train_model_binary(
-            model, train_loader_A, val_loader_A, holdout_loader_A, train_loader_B, val_loader_B, holdout_loader_B, **kwargs)
+            model, data1_path, data2_path, learning_rate, m_type, epochs, save_path, splits, device, **kwargs
+        )
+
     elif kwargs['task_type'] == 'continuous':
         model, history, holdout_history, best_predicted_values, best_actual_values = train_model_continuous(
-            model, train_loader_A, val_loader_A, holdout_loader_A, train_loader_B, val_loader_B, holdout_loader_B, **kwargs)
+            model, data1_path, data2_path, learning_rate, m_type, epochs, save_path, splits, device, **kwargs
+        )
 
     # Calculate and log training time
     training_time = time.time() - start_time
