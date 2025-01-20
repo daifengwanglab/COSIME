@@ -89,7 +89,7 @@ python Code/Model/main.py \
 - **splits**: Number of splits for cross-validation.
 
 ##### File Paths and Device.
-- **save**: Path to save model outputs and history (training history, holdout evaluation history, and the best model).
+- **save**: Path to save the best model and outputs (training history, holdout evaluation history, predicted values, and actual values).
 - **log**: Path to save the training logs.
 - **device**: Device to run the model.
 
