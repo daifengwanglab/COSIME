@@ -4,15 +4,16 @@ import logging
 import time
 import os
 import pandas as pd
-from data_loader_revised import load_and_prepare_data
+
+from data_loader import load_and_prepare_data
 from models import Model
-from train_revised import train_model_binary, train_model_continuous
+from train import train_model_binary, train_model_continuous
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Train a multi-modal model.")
-    parser.add_argument('--input_data_1', type=str, required=True, help="Path to the first data modality.")
-    parser.add_argument('--input_data_2', type=str, required=True, help="Path to the second data modality.")
-    parser.add_argument('--type', dest='task_type', type=str, choices=['binary', 'continuous'], required=True, help="Task type: binary or continuous.")
+    parser.add_argument('--input_data_1', dest='data1_path', type=str, required=True, help="Path to the first data modality.")
+    parser.add_argument('--input_data_2', dest='data2_path', type=str, required=True, help="Path to the second data modality.")
+    parser.add_argument('--type', dest='m_type', type=str, choices=['binary', 'continuous'], required=True, help="Task type: binary or continuous.")
     parser.add_argument('--predictor', dest='predictor_type', type=str, choices=['regression', 'NN'], required=True, help="Predictor type: regression or neural network.")
     parser.add_argument('--fusion', type=str, choices=['early', 'late'], required=True, help="Fusion type: early or late.")
     parser.add_argument('--batch_size', type=int, default=32, help="Batch size.")
@@ -53,6 +54,9 @@ def save_results(model, history, holdout_history, best_predicted_values, best_ac
     torch.save(model.state_dict(), f'{save_path}/best_model.pt')
     logging.info(f"Model saved to {save_path}/best_model.pt")
 
+    for k, v in history.items():
+        print(k)
+        print(len(v))
     history_df = pd.DataFrame(history)
     holdout_history_df = pd.DataFrame(holdout_history)
     history_df.to_csv(f'{save_path}/history.csv', index=False)
@@ -80,14 +84,11 @@ def main():
 
     # Load data (with None for output and name as they are not required in your case)
     train_loader_A, val_loader_A, holdout_loader_A, train_loader_B, val_loader_B, holdout_loader_B = load_and_prepare_data(
-        batch_size=kwargs['batch_size'],
-        data1_path=kwargs['input_data_1'],
-        data2_path=kwargs['input_data_2'],
-        task_type=kwargs['task_type'],
         output=None,  # Pass None if 'output' is not required
-        name=None     # Pass None if 'name' is not required
+        name=None,     # Pass None if 'name' is not required
+        **kwargs,
     )
-    logging.info(f"Data loaded successfully from {kwargs['input_data_1']} and {kwargs['input_data_2']}.")
+    logging.info(f"Data loaded successfully from {kwargs['data1_path']} and {kwargs['data2_path']}.")
 
     # Get input dimensions
     sample_A = next(iter(train_loader_A))
@@ -99,38 +100,16 @@ def main():
     # Initialize model
     model = Model(
         input_dim_A, input_dim_B,
-        m_type=kwargs['task_type'],
         **kwargs  # Passing the remaining args
     )
     logging.info("Model initialized successfully.")
 
     # Train the model
-    if kwargs['task_type'] == 'binary':
-        model, history, holdout_history, best_predicted_values, best_actual_values = train_model_binary(
-            model,
-            kwargs['input_data_1'],
-            kwargs['input_data_2'],
-            kwargs['learning_rate'],
-            kwargs['task_type'],
-            kwargs['epochs'],
-            kwargs['save_path'],
-            kwargs['splits'],
-            kwargs['device'],
-            **kwargs
-        )
-    elif kwargs['task_type'] == 'continuous':
-        model, history, holdout_history, best_predicted_values, best_actual_values = train_model_continuous(
-            model,
-            kwargs['input_data_1'],
-            kwargs['input_data_2'],
-            kwargs['learning_rate'],
-            kwargs['task_type'],
-            kwargs['epochs'],
-            kwargs['save_path'],
-            kwargs['splits'],
-            kwargs['device'],
-            **kwargs
-        )
+    if kwargs['m_type'] == 'binary':
+        model, history, holdout_history, best_predicted_values, best_actual_values = train_model_binary(model, **kwargs)
+    elif kwargs['m_type'] == 'continuous':
+        model, history, holdout_history, best_predicted_values, best_actual_values = train_model_continuous(model, **kwargs)
+    else: raise ValueError(f'Model type {kwargs["m_type"]} not recognized')
 
     # Calculate training time
     training_time = time.time() - start_time

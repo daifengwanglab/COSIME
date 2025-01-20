@@ -1,4 +1,11 @@
-def evaluate_holdout_binary(model, data_loader_A, data_loader_B, criterion, device):
+import numpy as np
+from sklearn.metrics import precision_recall_curve, f1_score
+import torch
+
+from loss import compute_weighted_loss, KL_divergence, LOT
+
+
+def evaluate_holdout_binary(model, data_loader_A, data_loader_B, criterion, fusion, device):
     model.eval()
 
     total_KLD_loss_A = 0
@@ -21,9 +28,6 @@ def evaluate_holdout_binary(model, data_loader_A, data_loader_B, criterion, devi
             labels_A = labels_A.to(device)
             labels_B = labels_B.to(device)
 
-            data_A = torch.tensor(data_A, dtype=torch.float32)
-            data_B = torch.tensor(data_B, dtype=torch.float32)
-
             data_A_tensors = data_A.clone().detach().requires_grad_(True)
             data_B_tensors = data_B.clone().detach().requires_grad_(True)
 
@@ -33,11 +37,12 @@ def evaluate_holdout_binary(model, data_loader_A, data_loader_B, criterion, devi
             KLD_loss_A = KL_divergence(mu_A, logsigma_A)
             KLD_loss_B = KL_divergence(mu_B, logsigma_B)
 
-            logits_A, logits_B = logits
-
             # Late fusion
-            logits = torch.cat((logits_A, logits_B), dim=0)
-            labels = torch.cat((labels_A, labels_B), dim=0)
+            if fusion == 'late':
+                logits_A, logits_B = logits
+                logits = torch.cat((logits_A, logits_B), dim=0)
+                labels = torch.cat((labels_A, labels_B), dim=0)
+            else: labels = labels_A.float()
 
             OT_loss = LOT(mu_A, logsigma_A, mu_B, logsigma_B)
 
