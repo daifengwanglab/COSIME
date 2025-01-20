@@ -20,11 +20,11 @@ def load_and_prepare_data(batch_size, data1_path, data2_path):
     data2 = data2.loc[data1.index]
 
     # 3. Extract features and labels
-    data_A = data1.drop(columns=['metacell', 'cognitive_status']).values
-    data_B = data2.drop(columns=['metacell', 'cognitive_status']).values
+    data_A = data1.drop(columns=['y']).values # your labels
+    data_B = data2.drop(columns=['y']).values # your labels
 
-    labels_A = (data1['cognitive_status'].values == 1).astype(np.int64)
-    labels_B = (data2['cognitive_status'].values == 1).astype(np.int64)
+    labels_A = (data1['y'].values == 1).astype(np.int64)
+    labels_B = (data2['y'].values == 1).astype(np.int64)
 
     # 4. Preprocessing - Min-max scaling and standardization
     scaler_A = MinMaxScaler()
@@ -33,32 +33,25 @@ def load_and_prepare_data(batch_size, data1_path, data2_path):
     scaler_B = MinMaxScaler()
     data_B_scaled = scaler_B.fit_transform(data_B)
 
-    # Standardize data
-    scaler_A_std = StandardScaler()
-    data_A_std = scaler_A_std.fit_transform(data_A_scaled)
-
-    scaler_B_std = StandardScaler()
-    data_B_std = scaler_B_std.fit_transform(data_B_scaled)
-
     # 5. Split the data into training, validation, and holdout sets
-    train_indices_A_initial, holdout_indices_A = train_test_split(np.arange(len(data_A_std)), test_size=0.25, random_state=100, shuffle=True)
-    train_indices_B_initial, holdout_indices_B = train_test_split(np.arange(len(data_B_std)), test_size=0.25, random_state=100, shuffle=True)
+    train_indices_A_initial, holdout_indices_A = train_test_split(np.arange(len(data_A_scaled)), test_size=0.25, random_state=100, shuffle=True)
+    train_indices_B_initial, holdout_indices_B = train_test_split(np.arange(len(data_B_scaled)), test_size=0.25, random_state=100, shuffle=True)
 
     train_indices_A, val_indices_A = train_test_split(train_indices_A_initial, test_size=100, shuffle=True)
     train_indices_B, val_indices_B = train_test_split(train_indices_B_initial, test_size=100, shuffle=True)
 
     # 6. Create training, validation, and holdout datasets
-    train_data_A = data_A_std[train_indices_A]
-    val_data_A = data_A_std[val_indices_A]
-    holdout_data_A = data_A_std[holdout_indices_A]
+    train_data_A = data_A_scaled[train_indices_A]
+    val_data_A = data_A_scaled[val_indices_A]
+    holdout_data_A = data_A_scaled[holdout_indices_A]
 
     train_labels_A = labels_A[train_indices_A]
     val_labels_A = labels_A[val_indices_A]
     holdout_labels_A = labels_A[holdout_indices_A]
 
-    train_data_B = data_B_std[train_indices_B]
-    val_data_B = data_B_std[val_indices_B]
-    holdout_data_B = data_B_std[holdout_indices_B]
+    train_data_B = data_B_scaled[train_indices_B]
+    val_data_B = data_B_scaled[val_indices_B]
+    holdout_data_B = data_B_scaled[holdout_indices_B]
 
     train_labels_B = labels_B[train_indices_B]
     val_labels_B = labels_B[val_indices_B]
