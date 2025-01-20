@@ -1,5 +1,7 @@
 import argparse
 import torch
+import logging
+import time
 from train import train_model
 from data_loader import load_data
 from models import Model
@@ -23,17 +25,49 @@ def parse_args():
     parser.add_argument('--log', dest='log_path', type=str, required=True, help="Path to the log file.")
     return parser.parse_args()
 
+def setup_logging(log_file):
+    # Set up logging configuration
+    logging.basicConfig(
+        filename=log_file, 
+        level=logging.INFO, 
+        format='%(asctime)s - %(message)s',
+        filemode='w'  # 'w' for overwriting log file each time, use 'a' for appending
+    )
+    # Also print logs to console
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(logging.INFO)
+    logging.getLogger().addHandler(console_handler)
+
 def main():
     kwargs = vars(parse_args())
+    
+    # Set up logging to both file and console
+    setup_logging(kwargs['log_path'])
+
+    # Log the start of the run
+    logging.info("Starting training process...")
+
+    # Record start time
+    start_time = time.time()
 
     # Load data
     datasets = load_data(kwargs['input_data_1'], kwargs['input_data_2'], **kwargs)
+    logging.info(f"Data loaded successfully. Datasets: {kwargs['input_data_1']}, {kwargs['input_data_2']}")
 
     # Load model based on type and fusion method
     model = Model(*[data[0].shape[1] for data in datasets], **kwargs)
+    logging.info("Model initialized successfully.")
 
-    # Train the model
-    train_model(model, *datasets, **kwargs)
+    # Train the model and capture all outputs
+    model, history, holdout_history, best_predicted_values, best_actual_values = train_model(model, *datasets, **kwargs)
+
+    # Calculate and log training time
+    training_time = time.time() - start_time
+    logging.info(f"Training completed in {training_time:.2f} seconds.")
+
+    # Optionally save the model
+    torch.save(model.state_dict(), kwargs['save_path'])
+    logging.info(f"Model saved to {kwargs['save_path']}.")
 
 if __name__ == '__main__':
     main()
