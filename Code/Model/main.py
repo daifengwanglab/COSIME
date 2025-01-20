@@ -100,9 +100,10 @@ def main():
 
     # Load model based on type and fusion method
     model = Model(
-        input_dim_A=train_loader_A.dataset[0][0].shape[0],  # Get input dimensions from first batch of loader A
-        input_dim_B=train_loader_B.dataset[0][0].shape[0],  # Get input dimensions from first batch of loader B
-        **kwargs
+    input_dim_A=train_loader_A.dataset[0][0].shape[0],
+    input_dim_B=train_loader_B.dataset[0][0].shape[0],
+    m_type=kwargs['task_type'], 
+    **kwargs
     )
     logging.info("Model initialized successfully.")
 
