@@ -98,12 +98,19 @@ def main():
     )
     logging.info(f"Data loaded successfully from {kwargs['input_data_1']} and {kwargs['input_data_2']}.")
 
+    # Get input dimensions from the first batch in the DataLoader
+    sample_A = next(iter(train_loader_A))  # First batch from DataLoader A
+    sample_B = next(iter(train_loader_B))  # First batch from DataLoader B
+    input_dim_A = sample_A[0].shape[1]  # Shape of features (rows: batch_size, cols: num_features)
+    input_dim_B = sample_B[0].shape[1]  # Shape of features (rows: batch_size, cols: num_features)
+    logging.info(f"Input dimensions - A: {input_dim_A}, B: {input_dim_B}")
+
     # Load model based on type and fusion method
     model = Model(
-    input_dim_A=train_loader_A.dataset[0][0].shape[0],
-    input_dim_B=train_loader_B.dataset[0][0].shape[0],
-    m_type=kwargs['task_type'], 
-    **kwargs
+        input_dim_A=input_dim_A,
+        input_dim_B=input_dim_B,
+        m_type=kwargs['task_type'],  # Use the 'type' argument as 'm_type'
+        **kwargs
     )
     logging.info("Model initialized successfully.")
 
