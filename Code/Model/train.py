@@ -199,7 +199,7 @@ def train_model_binary(model, data1_path, data2_path, batch_size, learning_rate,
             # Save the best model if this epoch's validation loss is the lowest
             if val_classification_loss < best_val_loss:
                 best_val_loss = val_classification_loss
-                best_model_state = model.state_dict()
+                best_model_state = model.state_dict().copy()
                 best_predicted_values = predicted_values.cpu().numpy()
                 best_actual_values = actual_values
 
@@ -401,7 +401,7 @@ def train_model_continuous(model, data1_path, data2_path, batch_size, learning_r
             # Save the best model if this epoch's validation loss is the lowest
             if val_regression_loss < best_val_loss:
                 best_val_loss = val_regression_loss
-                best_model_state = model.state_dict()
+                best_model_state = model.state_dict().copy()
                 best_predicted_values = predicted_values.cpu().numpy()
                 best_actual_values = actual_values.cpu().numpy()
 

@@ -1,25 +1,25 @@
-2025-01-20 15:31:24,286 - Starting training process...
-2025-01-20 15:31:24,337 - Data loaded successfully from Example/binary_high_late_x1.csv and Example/binary_high_late_x2.csv.
-2025-01-20 15:31:24,339 - Input dimensions - A: 100, B: 100
-2025-01-20 15:31:24,342 - Model initialized successfully.
-2025-01-20 15:31:25,483 - Fold 0 - Epoch 0 - KLD A (278.676) - KLD B (274.866) - OT (5.152) - REG (0.262) - Val KLD A (278.676) - Val KLD B (94.678) - Val OT (3.132) - Val REG (0.250)
-2025-01-20 15:31:25,800 - Fold 0 - Epoch 1 - KLD A (279.777) - KLD B (274.510) - OT (5.104) - REG (0.255) - Val KLD A (279.777) - Val KLD B (117.455) - Val OT (3.479) - Val REG (0.249)
-2025-01-20 15:31:25,876 - Holdout KLD A (127.187) - Holdout KLD B (124.456) - Holdout OT (3.434) - Holdout REG (0.250)
-2025-01-20 15:31:26,168 - Fold 1 - Epoch 0 - KLD A (276.342) - KLD B (261.621) - OT (5.041) - REG (0.261) - Val KLD A (276.342) - Val KLD B (124.453) - Val OT (3.463) - Val REG (0.246)
-2025-01-20 15:31:26,466 - Fold 1 - Epoch 1 - KLD A (266.200) - KLD B (260.607) - OT (4.940) - REG (0.258) - Val KLD A (266.200) - Val KLD B (123.394) - Val OT (3.408) - Val REG (0.245)
-2025-01-20 15:31:26,541 - Holdout KLD A (125.158) - Holdout KLD B (124.052) - Holdout OT (3.385) - Holdout REG (0.249)
-2025-01-20 15:31:26,903 - Fold 2 - Epoch 0 - KLD A (251.518) - KLD B (253.663) - OT (4.836) - REG (0.253) - Val KLD A (251.518) - Val KLD B (115.728) - Val OT (3.343) - Val REG (0.245)
-2025-01-20 15:31:27,190 - Fold 2 - Epoch 1 - KLD A (254.887) - KLD B (242.417) - OT (4.793) - REG (0.258) - Val KLD A (254.887) - Val KLD B (112.869) - Val OT (3.296) - Val REG (0.244)
-2025-01-20 15:31:27,258 - Holdout KLD A (120.735) - Holdout KLD B (117.935) - Holdout OT (3.287) - Holdout REG (0.248)
-2025-01-20 15:31:27,533 - Fold 3 - Epoch 0 - KLD A (247.700) - KLD B (242.195) - OT (4.740) - REG (0.258) - Val KLD A (247.700) - Val KLD B (109.501) - Val OT (3.219) - Val REG (0.242)
-2025-01-20 15:31:27,814 - Fold 3 - Epoch 1 - KLD A (253.776) - KLD B (241.641) - OT (4.739) - REG (0.255) - Val KLD A (253.776) - Val KLD B (107.583) - Val OT (3.160) - Val REG (0.242)
-2025-01-20 15:31:27,884 - Holdout KLD A (113.764) - Holdout KLD B (113.107) - Holdout OT (3.176) - Holdout REG (0.246)
-2025-01-20 15:31:28,170 - Fold 4 - Epoch 0 - KLD A (233.252) - KLD B (229.955) - OT (4.617) - REG (0.251) - Val KLD A (233.252) - Val KLD B (106.747) - Val OT (3.179) - Val REG (0.239)
-2025-01-20 15:31:28,474 - Fold 4 - Epoch 1 - KLD A (234.488) - KLD B (228.018) - OT (4.593) - REG (0.254) - Val KLD A (234.488) - Val KLD B (104.221) - Val OT (3.142) - Val REG (0.238)
-2025-01-20 15:31:28,544 - Holdout KLD A (110.562) - Holdout KLD B (108.259) - Holdout OT (3.102) - Holdout REG (0.244)
-2025-01-20 15:31:28,544 - Training completed in 4.26 seconds.
-2025-01-20 15:31:28,548 - Model saved to Example/best_model.pt
-2025-01-20 15:31:28,553 - History saved to Example/history.csv
-2025-01-20 15:31:28,553 - Holdout history saved to Example/holdout_history.csv
-2025-01-20 15:31:28,555 - Best predicted values saved to Example/best_predicted_values.csv
-2025-01-20 15:31:28,556 - Best actual values saved to Example/best_actual_values.csv
+2025-01-20 15:35:56,167 - Starting training process...
+2025-01-20 15:35:56,218 - Data loaded successfully from Example/binary_high_late_x1.csv and Example/binary_high_late_x2.csv.
+2025-01-20 15:35:56,221 - Input dimensions - A: 100, B: 100
+2025-01-20 15:35:56,224 - Model initialized successfully.
+2025-01-20 15:35:57,540 - Fold 0 - Epoch 0 - KLD A (276.764) - KLD B (277.574) - OT (5.115) - CL (0.712) - Val KLD A (276.764) - Val KLD B (17.278) - Val OT (1.264) - Val CL (0.719)
+2025-01-20 15:35:58,038 - Fold 0 - Epoch 1 - KLD A (261.064) - KLD B (257.455) - OT (4.926) - CL (0.710) - Val KLD A (261.064) - Val KLD B (29.678) - Val OT (1.633) - Val CL (0.717)
+2025-01-20 15:35:58,532 - Holdout KLD A (30.207) - Holdout KLD B (27.975) - Holdout OT (1.637) - Holdout CL (0.718)
+2025-01-20 15:35:59,050 - Fold 1 - Epoch 0 - KLD A (247.757) - KLD B (240.770) - OT (4.735) - CL (0.709) - Val KLD A (247.757) - Val KLD B (58.495) - Val OT (2.356) - Val CL (0.707)
+2025-01-20 15:35:59,555 - Fold 1 - Epoch 1 - KLD A (231.889) - KLD B (232.038) - OT (4.520) - CL (0.711) - Val KLD A (231.889) - Val KLD B (88.978) - Val OT (2.847) - Val CL (0.705)
+2025-01-20 15:36:00,062 - Holdout KLD A (92.294) - Holdout KLD B (92.042) - Holdout OT (2.855) - Holdout CL (0.713)
+2025-01-20 15:36:00,603 - Fold 2 - Epoch 0 - KLD A (224.144) - KLD B (217.240) - OT (4.388) - CL (0.704) - Val KLD A (224.144) - Val KLD B (107.119) - Val OT (2.937) - Val CL (0.712)
+2025-01-20 15:36:01,093 - Fold 2 - Epoch 1 - KLD A (207.204) - KLD B (212.727) - OT (4.328) - CL (0.704) - Val KLD A (207.204) - Val KLD B (104.913) - Val OT (2.861) - Val CL (0.711)
+2025-01-20 15:36:01,613 - Holdout KLD A (100.065) - Holdout KLD B (98.396) - Holdout OT (2.864) - Holdout CL (0.710)
+2025-01-20 15:36:02,097 - Fold 3 - Epoch 0 - KLD A (205.134) - KLD B (206.041) - OT (4.182) - CL (0.708) - Val KLD A (205.134) - Val KLD B (93.692) - Val OT (2.701) - Val CL (0.696)
+2025-01-20 15:36:02,602 - Fold 3 - Epoch 1 - KLD A (191.165) - KLD B (192.320) - OT (3.995) - CL (0.707) - Val KLD A (191.165) - Val KLD B (91.112) - Val OT (2.608) - Val CL (0.695)
+2025-01-20 15:36:03,099 - Holdout KLD A (90.414) - Holdout KLD B (91.144) - Holdout OT (2.642) - Holdout CL (0.707)
+2025-01-20 15:36:03,615 - Fold 4 - Epoch 0 - KLD A (188.514) - KLD B (186.552) - OT (3.926) - CL (0.708) - Val KLD A (188.514) - Val KLD B (87.924) - Val OT (2.499) - Val CL (0.698)
+2025-01-20 15:36:04,111 - Fold 4 - Epoch 1 - KLD A (182.884) - KLD B (177.924) - OT (3.826) - CL (0.706) - Val KLD A (182.884) - Val KLD B (84.920) - Val OT (2.410) - Val CL (0.698)
+2025-01-20 15:36:04,603 - Holdout KLD A (84.437) - Holdout KLD B (85.731) - Holdout OT (2.479) - Holdout CL (0.706)
+2025-01-20 15:36:04,604 - Training completed in 8.44 seconds.
+2025-01-20 15:36:04,606 - Model saved to Example/best_model.pt
+2025-01-20 15:36:04,610 - History saved to Example/history.csv
+2025-01-20 15:36:04,610 - Holdout history saved to Example/holdout_history.csv
+2025-01-20 15:36:04,612 - Best predicted values saved to Example/best_predicted_values.csv
+2025-01-20 15:36:04,613 - Best actual values saved to Example/best_actual_values.csv
