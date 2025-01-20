@@ -4,7 +4,7 @@ import logging
 import time
 import os
 import pandas as pd
-from data_loader_revised import load_data
+from data_loader_revised import load_and_prepare_data  # Correct import
 from models import Model
 from train_revised import train_model_binary, train_model_continuous
 
@@ -87,27 +87,32 @@ def main():
     # Record start time
     start_time = time.time()
 
-    # Load data
-    datasets = load_data(kwargs['input_data_1'], kwargs['input_data_2'], **kwargs)
-    logging.info(f"Data loaded successfully. Datasets: {kwargs['input_data_1']}, {kwargs['input_data_2']}")
+    # Load data using load_and_prepare_data
+    train_loader_A, val_loader_A, holdout_loader_A, train_loader_B, val_loader_B, holdout_loader_B = load_and_prepare_data(
+        batch_size=kwargs['batch_size'],
+        output=None,  # Output is not used, could be added for logging if necessary
+        name=None,  # Name is not used, could be added for logging if necessary
+        data1_path=kwargs['input_data_1'],
+        data2_path=kwargs['input_data_2'],
+        task_type=kwargs['task_type']
+    )
+    logging.info(f"Data loaded successfully from {kwargs['input_data_1']} and {kwargs['input_data_2']}.")
 
     # Load model based on type and fusion method
-    model = Model(*[data[0].shape[1] for data in datasets], **kwargs)
+    model = Model(
+        input_dim_A=train_loader_A.dataset[0][0].shape[0],  # Get input dimensions from first batch of loader A
+        input_dim_B=train_loader_B.dataset[0][0].shape[0],  # Get input dimensions from first batch of loader B
+        **kwargs
+    )
     logging.info("Model initialized successfully.")
 
     # Train the model based on the task type (binary or continuous)
     if kwargs['task_type'] == 'binary':
-        # Unpack datasets manually and pass to the training function
-        (train_data_1, val_data_1, holdout_data_1), (train_data_2, val_data_2, holdout_data_2) = datasets
         model, history, holdout_history, best_predicted_values, best_actual_values = train_model_binary(
-            model, train_data_1, train_data_2, val_data_1, val_data_2, holdout_data_1, holdout_data_2, **kwargs
-        )
+            model, train_loader_A, val_loader_A, holdout_loader_A, train_loader_B, val_loader_B, holdout_loader_B, **kwargs)
     elif kwargs['task_type'] == 'continuous':
-        # Unpack datasets manually and pass to the training function
-        (train_data_1, val_data_1, holdout_data_1), (train_data_2, val_data_2, holdout_data_2) = datasets
         model, history, holdout_history, best_predicted_values, best_actual_values = train_model_continuous(
-            model, train_data_1, train_data_2, val_data_1, val_data_2, holdout_data_1, holdout_data_2, **kwargs
-        )
+            model, train_loader_A, val_loader_A, holdout_loader_A, train_loader_B, val_loader_B, holdout_loader_B, **kwargs)
 
     # Calculate and log training time
     training_time = time.time() - start_time
