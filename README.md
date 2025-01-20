@@ -38,6 +38,7 @@ python Code/Model/main.py \
   --predictor="regression" \
   --fusion="early" \
   --batch_size=32 \
+  --epochs-100 \
   --learning_rate=0.0001 \
   --learning_gamma=0.99 \
   --dropout=0.5 \
@@ -67,6 +68,7 @@ python Code/Model/main.py \
 
 ##### Training Settings
 - **batch_size**: Number of samples processed in one pass.
+- **epoch**:"Number of training epochs.
 - **learning rate**: Controls how much weights are adjusted during training.
 - **learning gamma**: Rate at which the learning rate decays during training.
 - **dropout**: Probability of randomly dropping neurons during training to prevent overfitting.
