@@ -4,7 +4,7 @@ import logging
 import time
 import os
 import pandas as pd
-from data_loader import load_data
+from data_loader_revised import load_data
 from models import Model
 from train_revised import train_model_binary, train_model_continuous
 
@@ -97,9 +97,17 @@ def main():
 
     # Train the model based on the task type (binary or continuous)
     if kwargs['task_type'] == 'binary':
-        model, history, holdout_history, best_predicted_values, best_actual_values = train_model_binary(model, *datasets, **kwargs)
+        # Unpack datasets manually and pass to the training function
+        (train_data_1, val_data_1, holdout_data_1), (train_data_2, val_data_2, holdout_data_2) = datasets
+        model, history, holdout_history, best_predicted_values, best_actual_values = train_model_binary(
+            model, train_data_1, train_data_2, val_data_1, val_data_2, holdout_data_1, holdout_data_2, **kwargs
+        )
     elif kwargs['task_type'] == 'continuous':
-        model, history, holdout_history, best_predicted_values, best_actual_values = train_model_continuous(model, *datasets, **kwargs)
+        # Unpack datasets manually and pass to the training function
+        (train_data_1, val_data_1, holdout_data_1), (train_data_2, val_data_2, holdout_data_2) = datasets
+        model, history, holdout_history, best_predicted_values, best_actual_values = train_model_continuous(
+            model, train_data_1, train_data_2, val_data_1, val_data_2, holdout_data_1, holdout_data_2, **kwargs
+        )
 
     # Calculate and log training time
     training_time = time.time() - start_time
