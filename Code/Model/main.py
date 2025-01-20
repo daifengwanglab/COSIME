@@ -2,6 +2,8 @@ import argparse
 import torch
 import logging
 import time
+import os
+import pandas as pd
 from train import train_model
 from data_loader import load_data
 from models import Model
@@ -11,16 +13,21 @@ def parse_args():
     parser.add_argument('--input_data_1', type=str, required=True, help="Path to the first data modality.")
     parser.add_argument('--input_data_2', type=str, required=True, help="Path to the second data modality.")
     parser.add_argument('--type', dest='m_type', type=str, choices=['binary', 'continuous'], required=True, help="Task type: binary or continuous.")
+    parser.add_argument('--predictor', dest='m_type', type=str, choices=['regression', 'NN'], required=True, help="Task type: regression or neural network.")
     parser.add_argument('--fusion', type=str, choices=['early', 'late'], required=True, help="Fusion type: early or late.")
     parser.add_argument('--batch_size', type=int, default=32, help="Batch size.")
     parser.add_argument('--learning_rate', type=float, default=0.0001, help="Learning rate.")
+    parser.add_argument('--learning_gamma', type=float, default=0.0001, help="Learning gamma.")
+    parser.add_argument('--dropout', type=float, default=0.5, help="Dropout rate.")
     parser.add_argument('--kld_1_weight', type=float, default=0.02, help="KLD weight.")
     parser.add_argument('--kld_2_weight', type=float, default=0.02, help="KLD weight.")
     parser.add_argument('--ot_weight', type=float, default=0.02, help="OT weight.")
     parser.add_argument('--cl_weight', type=float, default=0.9, help="CL weight.")
-    parser.add_argument('--epochs', type=int, default=100, help="Number of training epochs.")
-    parser.add_argument('--dropout', type=float, default=0.5, help="Dropout rate.")
     parser.add_argument('--dim', type=int, default=100, help="Dimensionality of the embeddings.")
+    parser.add_argument('--earlystop_patience', type=int, default=40, help="Early stop patience in training.")
+    parser.add_argument('--delta', type=float, default=0.001, help="Minimum improvement required to reset early stopping counter..")
+    parser.add_argument('--decay', type=float, default=0.001, help="Decrease in learning rate during training.")
+    parser.add_argument('--epochs', type=int, default=100, help="Number of training epochs.")
     parser.add_argument('--save', dest='save_path', type=str, required=True, help="Path to save the model.")
     parser.add_argument('--log', dest='log_path', type=str, required=True, help="Path to the log file.")
     return parser.parse_args()
@@ -37,6 +44,36 @@ def setup_logging(log_file):
     console_handler = logging.StreamHandler()
     console_handler.setLevel(logging.INFO)
     logging.getLogger().addHandler(console_handler)
+
+def create_directory(path):
+    """Create the directory if it doesn't exist."""
+    if not os.path.exists(path):
+        os.makedirs(path)
+
+def save_results(model, history, holdout_history, best_predicted_values, best_actual_values, save_path):
+    # 1. Save the model as a .pt file
+    torch.save(model.state_dict(), f'{save_path}/best_model.pt')
+    logging.info(f"Model saved to {save_path}/best_model.pt")
+
+    # 2. Save history and holdout_history as CSV files
+    history_df = pd.DataFrame(history)
+    holdout_history_df = pd.DataFrame(holdout_history)
+
+    history_df.to_csv(f'{save_path}/history.csv', index=False)
+    holdout_history_df.to_csv(f'{save_path}/holdout_history.csv', index=False)
+
+    logging.info(f"History saved to {save_path}/history.csv")
+    logging.info(f"Holdout history saved to {save_path}/holdout_history.csv")
+
+    # 3. Save best predicted and actual values as CSV files
+    best_predicted_df = pd.DataFrame(best_predicted_values)
+    best_actual_df = pd.DataFrame(best_actual_values)
+
+    best_predicted_df.to_csv(f'{save_path}/best_predicted_values.csv', index=False)
+    best_actual_df.to_csv(f'{save_path}/best_actual_values.csv', index=False)
+
+    logging.info(f"Best predicted values saved to {save_path}/best_predicted_values.csv")
+    logging.info(f"Best actual values saved to {save_path}/best_actual_values.csv")
 
 def main():
     kwargs = vars(parse_args())
@@ -65,9 +102,11 @@ def main():
     training_time = time.time() - start_time
     logging.info(f"Training completed in {training_time:.2f} seconds.")
 
-    # Optionally save the model
-    torch.save(model.state_dict(), kwargs['save_path'])
-    logging.info(f"Model saved to {kwargs['save_path']}.")
+    # Create directory to save results
+    create_directory(kwargs['save_path'])
+
+    # Save the results: model, history, holdout history, best predictions, and actual values
+    save_results(model, history, holdout_history, best_predicted_values, best_actual_values, kwargs['save_path'])
 
 if __name__ == '__main__':
     main()
