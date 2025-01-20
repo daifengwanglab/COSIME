@@ -118,7 +118,7 @@ def LOT(mu_src, std_src, mu_tgt, std_tgt, reg=0.1, reg_m=1.0, num_iterations=10,
     return ot_loss
 
 
-def compute_weighted_loss(KLD_loss_A, KLD_loss_B, OT_loss, classification_loss, KLD_A_weight, KLD_B_weight, OT_weight, CL_weight):
+def compute_weighted_loss(KLD_loss_A, KLD_loss_B, OT_loss, classification_loss, KLD_A_weight, KLD_B_weight, OT_weight, CL_weight, **kwargs):
     
     # Magnitudes of each loss
     magnitude_KLD_A = KLD_loss_A.item()

@@ -114,15 +114,14 @@ def train_model_binary(model, data1_path, data2_path, batch_size, learning_rate,
                 if fusion == 'late':
                     logits_A, logits_B = logits
                     logits = torch.cat((logits_A, logits_B), dim=0)
-                    labels = torch.cat((labels_A, labels_B), dim=0)
+                    labels = torch.cat((labels_A, labels_B), dim=0).float()
                 else: labels = labels_A.float()
 
                 # Classification loss
                 classification_loss = criterion(logits.squeeze(), labels.squeeze())
 
                 # Compute the total weighted loss
-                loss = compute_weighted_loss(KLD_loss_A, KLD_loss_B, OT_loss, classification_loss,
-                                             kwargs['kld_1_weight'], kwargs['kld_2_weight'], kwargs['ot_weight'], kwargs['cl_weight'])
+                loss = compute_weighted_loss(KLD_loss_A, KLD_loss_B, OT_loss, classification_loss, kwargs['kld_1_weight'], kwargs['kld_2_weight'], kwargs['ot_weight'], kwargs['cl_weight'])
 
                 loss.backward()
                 optimizer.step()
@@ -216,7 +215,7 @@ def train_model_binary(model, data1_path, data2_path, batch_size, learning_rate,
     return model, history, holdout_history, best_predicted_values, best_actual_values
 
 
-def train_model_continuous(model, data1_path, data2_path, batch_size, learning_rate, m_type, epochs, save_path, splits, device, **kwargs):
+def train_model_continuous(model, data1_path, data2_path, batch_size, learning_rate, m_type, epochs, save_path, splits, fusion, device, **kwargs):
     """
     Train the continuous regression model using data from two CSV files.
 
@@ -264,7 +263,8 @@ def train_model_continuous(model, data1_path, data2_path, batch_size, learning_r
     best_actual_values = None
 
     # Loop over cross-validation splits
-    for fold, (pair_A, pair_B) in enumerate(zip(splits.split(train_loader_A.dataset), splits.split(train_loader_B.dataset))):
+    sk_splits = sklearn.model_selection.KFold(n_splits=splits)
+    for fold, (pair_A, pair_B) in enumerate(zip(sk_splits.split(train_loader_A.dataset), sk_splits.split(train_loader_B.dataset))):
         print(f"Fold {fold + 1}")
 
         # Cross-validation: Split training and validation data
@@ -273,10 +273,10 @@ def train_model_continuous(model, data1_path, data2_path, batch_size, learning_r
 
         # Get the datasets for training and validation
         train_loader_A_fold = DataLoader(Subset(train_loader_A.dataset, train_idx_A), batch_size=batch_size, shuffle=True)
-        val_loader_A_fold = DataLoader(Subset(val_loader_A.dataset, val_idx_A), batch_size=batch_size)
+        val_loader_A_fold = DataLoader(Subset(train_loader_A.dataset, val_idx_A), batch_size=batch_size)
         
         train_loader_B_fold = DataLoader(Subset(train_loader_B.dataset, train_idx_B), batch_size=batch_size, shuffle=True)
-        val_loader_B_fold = DataLoader(Subset(val_loader_B.dataset, val_idx_B), batch_size=batch_size)
+        val_loader_B_fold = DataLoader(Subset(train_loader_A.dataset, val_idx_B), batch_size=batch_size)
 
         # Initialize early stopper
         early_stopper = EarlyStopper(patience=kwargs.get('earlystop_patience', 10), min_delta=kwargs.get('delta', 0.001))
@@ -300,7 +300,6 @@ def train_model_continuous(model, data1_path, data2_path, batch_size, learning_r
                 # Forward pass
                 nets, logits = model(data_A, data_B)
                 (z_A, mu_A, logsigma_A), (z_B, mu_B, logsigma_B) = nets
-                logits_A, logits_B = logits
 
                 # Compute loss components
                 KLD_loss_A = KL_divergence(mu_A, logsigma_A)
@@ -308,15 +307,17 @@ def train_model_continuous(model, data1_path, data2_path, batch_size, learning_r
                 OT_loss = LOT(mu_A, logsigma_A, mu_B, logsigma_B)
 
                 # Combine logits and labels for loss calculation
-                logits = torch.cat((logits_A, logits_B), dim=0)
-                labels = torch.cat((labels_A, labels_B), dim=0)
+                if fusion == 'late':
+                    logits_A, logits_B = logits
+                    logits = torch.cat((logits_A, logits_B), dim=0)
+                    labels = torch.cat((labels_A, labels_B), dim=0).float()
+                else: labels = labels_A.float()
 
                 # Regression loss
                 regression_loss = criterion(logits.squeeze(), labels.squeeze())
 
                 # Compute the total weighted loss
-                loss = compute_weighted_loss(KLD_loss_A, KLD_loss_B, OT_loss, regression_loss,
-                                             kwargs['kld_1_weight'], kwargs['kld_2_weight'], kwargs['ot_weight'], kwargs['regression_weight'])
+                loss = compute_weighted_loss(KLD_loss_A, KLD_loss_B, OT_loss, regression_loss, kwargs['kld_1_weight'], kwargs['kld_2_weight'], kwargs['ot_weight'], kwargs['cl_weight'])
 
                 loss.backward()
                 optimizer.step()
@@ -333,6 +334,8 @@ def train_model_continuous(model, data1_path, data2_path, batch_size, learning_r
             avg_OT_loss = OT_loss_epoch / len(train_loader_A_fold)
             avg_regression_loss = regression_loss_epoch / len(train_loader_A_fold)
 
+            history['fold_num'].append(fold)
+            history['epoch_num'].append(fold)
             history['KLD_train_loss_A'].append(avg_KLD_loss_A)
             history['KLD_train_loss_B'].append(avg_KLD_loss_B)
             history['OT_train_loss'].append(avg_OT_loss)
@@ -345,8 +348,8 @@ def train_model_continuous(model, data1_path, data2_path, batch_size, learning_r
 
             # Validation phase
             model.eval()
-            val_KLD_loss_A, val_KLD_loss_B, val_OT_loss, val_regression_loss, predicted_values, actual_values = evaluate_holdout(
-                model, val_loader_A_fold, val_loader_B_fold, nn.MSELoss(), device
+            val_KLD_loss_A, val_KLD_loss_B, val_OT_loss, val_regression_loss, predicted_values, actual_values = evaluate_holdout_continuous(
+                model, val_loader_A_fold, val_loader_B_fold, nn.MSELoss(), fusion, device
             )
 
             print(f"KLD_A (val) Loss: {val_KLD_loss_A:.4f}")
@@ -370,15 +373,15 @@ def train_model_continuous(model, data1_path, data2_path, batch_size, learning_r
         model.load_state_dict(best_model_state)
 
         # Holdout evaluation
-        holdout_KLD_loss_A, holdout_KLD_loss_B, holdout_OT_loss, holdout_regression_loss, holdout_predicted_values, holdout_actual_values = evaluate_holdout(
-            model, holdout_loader_A, holdout_loader_B, nn.MSELoss(), device
+        holdout_KLD_loss_A, holdout_KLD_loss_B, holdout_OT_loss, holdout_regression_loss, holdout_predicted_values, holdout_actual_values = evaluate_holdout_continuous(
+            model, holdout_loader_A, holdout_loader_B, nn.MSELoss(), fusion, device
         )
 
         holdout_history = {
-            'KLD_eval_loss_A': holdout_KLD_loss_A,
-            'KLD_eval_loss_B': holdout_KLD_loss_B,
-            'OT_eval_loss': holdout_OT_loss,
-            'regression_eval_loss': holdout_regression_loss,
+            'KLD_eval_loss_A': [holdout_KLD_loss_A],
+            'KLD_eval_loss_B': [holdout_KLD_loss_B],
+            'OT_eval_loss': [holdout_OT_loss],
+            'regression_eval_loss': [holdout_regression_loss],
         }
 
         # Log holdout results

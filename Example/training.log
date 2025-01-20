@@ -1,10 +1,10 @@
-2025-01-20 13:49:56,440 - Starting training process...
-2025-01-20 13:49:56,487 - Data loaded successfully from Example/binary_high_late_x1.csv and Example/binary_high_late_x2.csv.
-2025-01-20 13:49:56,489 - Input dimensions - A: 100, B: 100
-2025-01-20 13:49:56,493 - Model initialized successfully.
-2025-01-20 13:50:02,446 - Training completed in 6.01 seconds.
-2025-01-20 13:50:02,449 - Model saved to Example/best_model.pt
-2025-01-20 13:50:02,458 - History saved to Example/history.csv
-2025-01-20 13:50:02,458 - Holdout history saved to Example/holdout_history.csv
-2025-01-20 13:50:02,460 - Best predicted values saved to Example/best_predicted_values.csv
-2025-01-20 13:50:02,461 - Best actual values saved to Example/best_actual_values.csv
+2025-01-20 15:13:03,267 - Starting training process...
+2025-01-20 15:13:03,317 - Data loaded successfully from Example/binary_high_late_x1.csv and Example/binary_high_late_x2.csv.
+2025-01-20 15:13:03,319 - Input dimensions - A: 100, B: 100
+2025-01-20 15:13:03,323 - Model initialized successfully.
+2025-01-20 15:13:11,846 - Training completed in 8.58 seconds.
+2025-01-20 15:13:11,849 - Model saved to Example/best_model.pt
+2025-01-20 15:13:11,852 - History saved to Example/history.csv
+2025-01-20 15:13:11,853 - Holdout history saved to Example/holdout_history.csv
+2025-01-20 15:13:11,854 - Best predicted values saved to Example/best_predicted_values.csv
+2025-01-20 15:13:11,855 - Best actual values saved to Example/best_actual_values.csv

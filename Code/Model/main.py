@@ -54,9 +54,6 @@ def save_results(model, history, holdout_history, best_predicted_values, best_ac
     torch.save(model.state_dict(), f'{save_path}/best_model.pt')
     logging.info(f"Model saved to {save_path}/best_model.pt")
 
-    for k, v in history.items():
-        print(k)
-        print(len(v))
     history_df = pd.DataFrame(history)
     holdout_history_df = pd.DataFrame(holdout_history)
     history_df.to_csv(f'{save_path}/history.csv', index=False)

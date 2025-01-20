@@ -112,7 +112,7 @@ def evaluate_holdout_binary(model, data_loader_A, data_loader_B, criterion, fusi
 
 
 
-def evaluate_holdout_continuous(model, data_loader_A, data_loader_B, criterion, device):
+def evaluate_holdout_continuous(model, data_loader_A, data_loader_B, criterion, fusion, device):
     model.eval()
 
     total_KLD_loss_A = 0
@@ -146,14 +146,14 @@ def evaluate_holdout_continuous(model, data_loader_A, data_loader_B, criterion, 
 
             KLD_loss_A = KL_divergence(mu_A, logsigma_A)
             KLD_loss_B = KL_divergence(mu_B, logsigma_B)
-
-            logits_A, logits_B = logits
+            OT_loss = LOT(mu_A, logsigma_A, mu_B, logsigma_B)
 
             # Late fusion
-            logits = torch.cat((logits_A, logits_B), dim=0)
-            labels = torch.cat((labels_A, labels_B), dim=0)
-
-            OT_loss = LOT(mu_A, logsigma_A, mu_B, logsigma_B)
+            if fusion == 'late':
+                logits_A, logits_B = logits
+                logits = torch.cat((logits_A, logits_B), dim=0)
+                labels = torch.cat((labels_A, labels_B), dim=0)
+            else: labels = labels_A.float()
 
             # Check if logits is a list
             if isinstance(logits, list):
