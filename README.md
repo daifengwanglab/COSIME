@@ -38,7 +38,7 @@ python Code/Model/main.py \
   --predictor="regression" \
   --fusion="early" \
   --batch_size=32 \
-  --epochs-100 \
+  --epochs=100 \
   --learning_rate=0.0001 \
   --learning_gamma=0.99 \
   --dropout=0.5 \
