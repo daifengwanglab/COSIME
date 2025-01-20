@@ -91,7 +91,7 @@ python Code/Model/main.py \
 ##### File Paths and Device.
 - **save**: Path to save the best model and outputs (training history, holdout evaluation history, predicted values, and actual values).
 - **log**: Path to save the training logs.
-- **device**: Device to run the model.
+- **device**: Device to run the model ('cpu' or 'cuda').
 
 
 #### Results
