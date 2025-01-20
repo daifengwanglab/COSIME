@@ -4,9 +4,9 @@ import logging
 import time
 import os
 import pandas as pd
-from train import train_model
 from data_loader import load_data
 from models import Model
+from train_revised import train_model_binary, train_model_continuous
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Train a multi-modal model.")
@@ -95,8 +95,11 @@ def main():
     model = Model(*[data[0].shape[1] for data in datasets], **kwargs)
     logging.info("Model initialized successfully.")
 
-    # Train the model and capture all outputs
-    model, history, holdout_history, best_predicted_values, best_actual_values = train_model(model, *datasets, **kwargs)
+    # Train the model based on the task type (binary or continuous)
+    if kwargs['task_type'] == 'binary':
+        model, history, holdout_history, best_predicted_values, best_actual_values = train_model_binary(model, *datasets, **kwargs)
+    elif kwargs['task_type'] == 'continuous':
+        model, history, holdout_history, best_predicted_values, best_actual_values = train_model_continuous(model, *datasets, **kwargs)
 
     # Calculate and log training time
     training_time = time.time() - start_time
