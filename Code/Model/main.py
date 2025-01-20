@@ -98,8 +98,7 @@ def main():
 
     # Initialize model
     model = Model(
-        input_dim_A, input_dim_B,  # Correct dimensions
-        task_type=kwargs['task_type'],  # Using 'task_type' consistently
+        input_dim_A, input_dim_B,
         **kwargs  # Passing the remaining args
     )
     logging.info("Model initialized successfully.")
