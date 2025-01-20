@@ -78,12 +78,14 @@ def main():
     logging.info("Starting training process...")
     start_time = time.time()
 
-    # Load data
+    # Load data (with None for output and name as they are not required in your case)
     train_loader_A, val_loader_A, holdout_loader_A, train_loader_B, val_loader_B, holdout_loader_B = load_and_prepare_data(
         batch_size=kwargs['batch_size'],
         data1_path=kwargs['input_data_1'],
         data2_path=kwargs['input_data_2'],
-        task_type=kwargs['task_type']
+        task_type=kwargs['task_type'],
+        output=None,  # Pass None if 'output' is not required
+        name=None     # Pass None if 'name' is not required
     )
     logging.info(f"Data loaded successfully from {kwargs['input_data_1']} and {kwargs['input_data_2']}.")
 
@@ -109,7 +111,7 @@ def main():
             kwargs['input_data_1'],
             kwargs['input_data_2'],
             kwargs['learning_rate'],
-            kwargs['task_type'],  # Correct argument name
+            kwargs['task_type'],
             kwargs['epochs'],
             kwargs['save_path'],
             kwargs['splits'],
@@ -122,7 +124,7 @@ def main():
             kwargs['input_data_1'],
             kwargs['input_data_2'],
             kwargs['learning_rate'],
-            kwargs['task_type'],  # Correct argument name
+            kwargs['task_type'],
             kwargs['epochs'],
             kwargs['save_path'],
             kwargs['splits'],
