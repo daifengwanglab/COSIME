@@ -51,7 +51,8 @@ python Code/Model/main.py \
   --decay=0.001 \
   --splits=5 \
   --save="Example" \
-  --log="Example/training.log"
+  --log="Example/training.log" \
+  --device="cpu"
 ```
 #### Parameters Overview
 
@@ -85,9 +86,10 @@ python Code/Model/main.py \
 - **decay**: How much the learning rate decreases during training.
 - **splits**: Number of splits for cross-validation.
 
-##### File Paths
+##### File Paths and Device.
 - **save**: Path to save model outputs and history (training history, holdout evaluation history, and the best model).
 - **log**: Path to save the training logs.
+- **device**: Device to run the model.
 
 
 #### Results
