@@ -138,7 +138,7 @@ python Code/Explainer/main.py \
 ##### Monte Carlo Sampling and Memory
 - **mc_iterations**: Number of Monte Carlo sampling iterations.
 - **batch_size**: Number of samples processed together in one forward pass through the model.
-- **max_memory_usage_gb**: Xaximum memory usage in gigabytes (GB) for the model during computation
+- **max_memory_usage_gb**: Maximum memory usage in gigabytes (GB) for the model during computation
 - **interaction**: Compute both feature importance and pairwise feature interaction (True) or just feature importance (False).
 
 ##### File Paths
