@@ -25,7 +25,7 @@ def parse_args():
     parser.add_argument('--cl_weight', type=float, default=0.9, help="CL weight.")
     parser.add_argument('--dim', type=int, default=100, help="Dimensionality of the embeddings.")
     parser.add_argument('--earlystop_patience', type=int, default=40, help="Early stop patience in training.")
-    parser.add_argument('--delta', type=float, default=0.001, help="Minimum improvement required to reset early stopping counter..")
+    parser.add_argument('--delta', type=float, default=0.001, help="Minimum improvement required to reset early stopping counter.")
     parser.add_argument('--decay', type=float, default=0.001, help="Decrease in learning rate during training.")
     parser.add_argument('--epochs', type=int, default=100, help="Number of training epochs.")
     parser.add_argument('--save', dest='save_path', type=str, required=True, help="Path to save the model.")
@@ -109,19 +109,37 @@ def main():
     model = Model(
         *[input_dim_A, input_dim_B],
         m_type=kwargs['task_type'],  # Use the 'type' argument as 'm_type'
-        **kwargs
+        **kwargs  # Pass the rest of the arguments
     )
     logging.info("Model initialized successfully.")
 
     # Train the model based on the task type (binary or continuous)
     if kwargs['task_type'] == 'binary':
         model, history, holdout_history, best_predicted_values, best_actual_values = train_model_binary(
-            model, data1_path, data2_path, learning_rate, m_type, epochs, save_path, splits, device, **kwargs
+            model, 
+            kwargs['input_data_1'], 
+            kwargs['input_data_2'], 
+            kwargs['learning_rate'], 
+            kwargs['task_type'],  # Using kwargs['task_type'] here
+            kwargs['epochs'], 
+            kwargs['save_path'], 
+            kwargs['splits'], 
+            kwargs['device'], 
+            **kwargs  # Passing other arguments as **kwargs
         )
 
     elif kwargs['task_type'] == 'continuous':
         model, history, holdout_history, best_predicted_values, best_actual_values = train_model_continuous(
-            model, data1_path, data2_path, learning_rate, m_type, epochs, save_path, splits, device, **kwargs
+            model, 
+            kwargs['input_data_1'], 
+            kwargs['input_data_2'], 
+            kwargs['learning_rate'], 
+            kwargs['task_type'],  # Using kwargs['task_type'] here
+            kwargs['epochs'], 
+            kwargs['save_path'], 
+            kwargs['splits'], 
+            kwargs['device'], 
+            **kwargs  # Passing other arguments as **kwargs
         )
 
     # Calculate and log training time
