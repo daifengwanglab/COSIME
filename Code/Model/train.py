@@ -1,3 +1,5 @@
+import logging
+
 import torch
 import torch.optim as optim
 import torch.nn as nn
@@ -179,6 +181,21 @@ def train_model_binary(model, data1_path, data2_path, batch_size, learning_rate,
             print(f"AUPRC (from average_precision_score): {auprc_score:.4f}")
             history['AUPRC_val'].append(auprc_score)
 
+            # Logging Info
+            log_text = ' - '.join([
+                f'Fold {fold}',
+                f'Epoch {epoch}',
+                f'KLD A ({avg_KLD_loss_A:.3f})',
+                f'KLD B ({avg_KLD_loss_B:.3f})',
+                f'OT ({avg_OT_loss:.3f})',
+                f'CL ({avg_classification_loss:.3f})',
+                f'Val KLD A ({avg_KLD_loss_A:.3f})',
+                f'Val KLD B ({val_KLD_loss_B:.3f})',
+                f'Val OT ({val_OT_loss:.3f})',
+                f'Val CL ({val_classification_loss:.3f})',
+            ])
+            logging.info(log_text)
+
             # Save the best model if this epoch's validation loss is the lowest
             if val_classification_loss < best_val_loss:
                 best_val_loss = val_classification_loss
@@ -211,6 +228,15 @@ def train_model_binary(model, data1_path, data2_path, batch_size, learning_rate,
         print(f"Holdout KLD_B Loss: {holdout_KLD_loss_B:.4f}")
         print(f"Holdout OT Loss: {holdout_OT_loss:.4f}")
         print(f"Holdout Classification Loss: {holdout_classification_loss:.4f}")
+
+        # Logging Info
+        log_text = ' - '.join([
+            f'Holdout KLD A ({holdout_KLD_loss_A:.3f})',
+            f'Holdout KLD B ({holdout_KLD_loss_B:.3f})',
+            f'Holdout OT ({holdout_OT_loss:.3f})',
+            f'Holdout CL ({holdout_classification_loss:.3f})',
+        ])
+        logging.info(log_text)
 
     return model, history, holdout_history, best_predicted_values, best_actual_values
 
@@ -357,6 +383,21 @@ def train_model_continuous(model, data1_path, data2_path, batch_size, learning_r
             print(f"OT (val) Loss: {val_OT_loss:.4f}")
             print(f"Regression (val) Loss: {val_regression_loss:.4f}")
 
+            # Logging Info
+            log_text = ' - '.join([
+                f'Fold {fold}',
+                f'Epoch {epoch}',
+                f'KLD A ({avg_KLD_loss_A:.3f})',
+                f'KLD B ({avg_KLD_loss_B:.3f})',
+                f'OT ({avg_OT_loss:.3f})',
+                f'REG ({avg_regression_loss:.3f})',
+                f'Val KLD A ({avg_KLD_loss_A:.3f})',
+                f'Val KLD B ({val_KLD_loss_B:.3f})',
+                f'Val OT ({val_OT_loss:.3f})',
+                f'Val REG ({val_regression_loss:.3f})',
+            ])
+            logging.info(log_text)
+
             # Save the best model if this epoch's validation loss is the lowest
             if val_regression_loss < best_val_loss:
                 best_val_loss = val_regression_loss
@@ -389,5 +430,14 @@ def train_model_continuous(model, data1_path, data2_path, batch_size, learning_r
         print(f"Holdout KLD_B Loss: {holdout_KLD_loss_B:.4f}")
         print(f"Holdout OT Loss: {holdout_OT_loss:.4f}")
         print(f"Holdout Regression Loss: {holdout_regression_loss:.4f}")
+
+        # Logging Info
+        log_text = ' - '.join([
+            f'Holdout KLD A ({holdout_KLD_loss_A:.3f})',
+            f'Holdout KLD B ({holdout_KLD_loss_B:.3f})',
+            f'Holdout OT ({holdout_OT_loss:.3f})',
+            f'Holdout REG ({holdout_regression_loss:.3f})',
+        ])
+        logging.info(log_text)
 
     return model, history, holdout_history, best_predicted_values, best_actual_values
