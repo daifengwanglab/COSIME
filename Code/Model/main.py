@@ -107,7 +107,7 @@ def main():
 
     # Load model based on type and fusion method
     model = Model(
-        *input_dims=[input_dim_A, input_dim_B],
+        *[input_dim_A, input_dim_B],
         m_type=kwargs['task_type'],  # Use the 'type' argument as 'm_type'
         **kwargs
     )
