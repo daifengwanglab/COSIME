@@ -49,7 +49,7 @@ python Code/Model/main.py \
   --earlystop_patience=40 \
   --delta=0.001 \
   --decay=0.001 \
-  --splits=
+  --splits=5 \
   --save="Example" \
   --log="Example/training.log"
 ```
