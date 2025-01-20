@@ -99,6 +99,7 @@ def main():
     # Initialize model
     model = Model(
         input_dim_A, input_dim_B,
+        m_type=kwargs['task_type'],
         **kwargs  # Passing the remaining args
     )
     logging.info("Model initialized successfully.")
