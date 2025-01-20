@@ -49,6 +49,7 @@ python Code/Model/main.py \
   --earlystop_patience=40 \
   --delta=0.001 \
   --decay=0.001 \
+  --splits=
   --save="Example" \
   --log="Example/training.log"
 ```
@@ -82,6 +83,7 @@ python Code/Model/main.py \
 - **earlystop_patience**: Number of epochs to wait without improvement before stopping training.
 - **delta**: Minimum improvement required to reset early stopping counter.
 - **decay**: How much the learning rate decreases during training.
+- **splits**: Number of splits for cross-validation.
 
 ##### File Paths
 - **save**: Path to save model outputs and history (training history, holdout evaluation history, and the best model).
