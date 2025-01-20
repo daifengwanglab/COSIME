@@ -68,7 +68,7 @@ python Code/Model/main.py \
 
 ##### Training Settings
 - **batch_size**: Number of samples processed in one pass.
-- **epoch**:"Number of training epochs.
+- **epoch**: Number of training epochs.
 - **learning rate**: Controls how much weights are adjusted during training.
 - **learning gamma**: Rate at which the learning rate decays during training.
 - **dropout**: Probability of randomly dropping neurons during training to prevent overfitting.
