@@ -30,6 +30,7 @@ def parse_args():
     parser.add_argument('--epochs', type=int, default=100, help="Number of training epochs.")
     parser.add_argument('--save', dest='save_path', type=str, required=True, help="Path to save the model.")
     parser.add_argument('--log', dest='log_path', type=str, required=True, help="Path to the log file.")
+    parser.add_argument('--splits', type=int, default=5, help="Number of splits for cross-validation.")  # New splits argument
     return parser.parse_args()
 
 def setup_logging(log_file):
@@ -123,7 +124,7 @@ def main():
             kwargs['task_type'],  # Using kwargs['task_type'] here
             kwargs['epochs'], 
             kwargs['save_path'], 
-            kwargs['splits'], 
+            kwargs['splits'],  # Pass the splits argument here
             kwargs['device'], 
             **kwargs  # Passing other arguments as **kwargs
         )
@@ -137,7 +138,7 @@ def main():
             kwargs['task_type'],  # Using kwargs['task_type'] here
             kwargs['epochs'], 
             kwargs['save_path'], 
-            kwargs['splits'], 
+            kwargs['splits'],  # Pass the splits argument here
             kwargs['device'], 
             **kwargs  # Passing other arguments as **kwargs
         )
