@@ -16,7 +16,7 @@ from evaluate_holdout import *
 
 def train_model_binary(model, data1_path, data2_path, batch_size, learning_rate, m_type, epochs, save_path, splits, fusion, device, **kwargs):
     """
-    Train the binary classification model using data from two CSV files.
+    Train the model using data from two CSV files.
 
     :param model: The model to be trained.
     :param data1_path: Path to the first CSV data file.
