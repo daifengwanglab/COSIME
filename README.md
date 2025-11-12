@@ -116,7 +116,7 @@ python Code/Explainer/main.py \
 --model_script_path="Example/model_binary_high_late.py" \
 --input_dims="100,100" \
 --fusion="late" \
---dim 100 \
+--dim = 100 \
 --dropout 0.5 \
 --mc_iterations 50 \
 --batch_size 32 \
