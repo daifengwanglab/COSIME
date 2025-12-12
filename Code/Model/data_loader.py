@@ -31,10 +31,7 @@ def load_and_prepare_data(batch_size, log_path, data1_path, data2_path, task_typ
         
         # Scaling for continuous data
         scaler_A = StandardScaler()
-        data_A_scaled = scaler_A.fit_transform(data_A)
-        
         scaler_B = StandardScaler()
-        data_B_scaled = scaler_B.fit_transform(data_B)
     
     else:
         # Load data from CSV files for binary task
@@ -49,17 +46,24 @@ def load_and_prepare_data(batch_size, log_path, data1_path, data2_path, task_typ
         
         # Scaling for binary data (MinMaxScaler or StandardScaler)
         scaler_A = MinMaxScaler()
-        data_A_scaled = scaler_A.fit_transform(data_A)
-        
         scaler_B = MinMaxScaler()
-        data_B_scaled = scaler_B.fit_transform(data_B)
     
     # Split the data into training, validation, and holdout sets
-    train_indices_A_initial, holdout_indices_A = train_test_split(np.arange(len(data_A_scaled)), test_size=0.25, random_state=200, shuffle=True)
-    train_indices_B_initial, holdout_indices_B = train_test_split(np.arange(len(data_B_scaled)), test_size=0.25, random_state=200, shuffle=True)
+    train_indices_A_initial, holdout_indices_A = train_test_split(
+        np.arange(len(data_A)), test_size=0.25, random_state=200, shuffle=True
+    )
+    train_indices_B_initial, holdout_indices_B = train_test_split(
+        np.arange(len(data_B)), test_size=0.25, random_state=200, shuffle=True
+    )
 
     train_indices_A, val_indices_A = train_test_split(train_indices_A_initial, test_size=0.2, shuffle=True)
     train_indices_B, val_indices_B = train_test_split(train_indices_B_initial, test_size=0.2, shuffle=True)
+
+    scaler_A.fit(data_A[train_indices_A])
+    data_A_scaled = scaler_A.transform(data_A)
+
+    scaler_B.fit(data_B[train_indices_B])
+    data_B_scaled = scaler_B.transform(data_B)
 
     # Create datasets for each split
     train_data_A = data_A_scaled[train_indices_A]
