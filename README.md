@@ -111,13 +111,16 @@ python Code/Model/main.py \
 ### Computing Feature Importance and Interaction
 ```bash
 python main.py \
-  --input_data "/path/to/model_input.csv" \
-  --input_model "/path/to/model_scripted.pt" \
-  --model_format torchscript \
+  --input_data "/path/to/input.csv" \
+  --input_model "/path/to/trained_model.pt" \
+  --model_script "/path/to/user_model.py" \
+  --model_format state_dict \
   --input_dims 100,100 \
   --fusion late \
-  --save "/path/to/shapley_results" \
+  --save "/path/to/results" \
   --expected_samples 678 \
+  --dim 150 \
+  --dropout 0.5 \
   --mc_iterations 50 \
   --batch_size 32 \
   --seed 2026 \
