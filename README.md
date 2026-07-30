@@ -114,7 +114,6 @@ python main.py \
   --input_data "/path/to/input.csv" \
   --input_model "/path/to/trained_model.pt" \
   --model_script "/path/to/user_model.py" \
-  --model_format state_dict \
   --input_dims 100,100 \
   --fusion late \
   --save "/path/to/results" \
