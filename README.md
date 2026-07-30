@@ -112,8 +112,8 @@ python Code/Model/main.py \
 ```bash
 python main.py \
   --input_data "/path/to/input.csv" \
-  --input_model "/path/to/trained_model.pt" \
-  --model_script "/path/to/user_model.py" \
+  --input_model "/path/to/model.pt" \
+  --model_script_path "/path/to/user_model.py" \
   --input_dims 100,100 \
   --fusion late \
   --save "/path/to/results" \
@@ -142,7 +142,7 @@ python main.py \
 - **mc_iterations**: Number of Monte Carlo sampling iterations.
 - **batch_size**: Number of samples processed together in one forward pass through the model.
 - **max_memory_usage_gb**: Maximum memory usage in gigabytes (GB) for the model during computation
-- **interaction**: Compute both feature importance and pairwise feature interaction (True) or just feature importance (False).
+- **interaction**: Compute both feature importance and pairwise feature interaction or just feature importance (--no-interaction).
 
 ##### File Paths
 - **save**: Path to save the outputs.
