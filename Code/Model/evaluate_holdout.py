@@ -1,191 +1,85 @@
+"""Evaluation of a trained COSIME model on validation or holdout samples."""
 import numpy as np
-from sklearn.metrics import precision_recall_curve, f1_score
 import torch
+from torch import nn
+from sklearn.metrics import precision_recall_curve
 
-from loss import compute_weighted_loss, KL_divergence, LOT
+from loss import kld, lot_loss
+from utils import metrics
 
 
-def evaluate_holdout_binary(model, data_loader_A, data_loader_B, criterion, fusion, device):
+def best_f1(y, prob):
+    """Threshold with the highest F1 (predicted 1 when prob >= threshold), its F1 and the accuracy."""
+    precision, recall, thresholds = precision_recall_curve(y, prob)
+    p, r = precision[:-1], recall[:-1]
+    f1 = np.divide(2 * p * r, p + r, out=np.zeros_like(p), where=(p + r) > 0)
+    k = int(np.argmax(f1))
+    return {'f1_threshold': float(thresholds[k]), 'f1': float(f1[k]),
+            'accuracy_f1_threshold': float(np.mean((prob >= thresholds[k]) == y))}
+
+
+def evaluate(model, xs, y, indices, batch_size, device, cfg):
+    """Evaluate the model on the samples in indices.
+
+    Returns the predictions (logits for a binary outcome) and a summary: the mean over batches of
+    each loss part (KLD of each view; LOT for two views), the prediction loss over all samples, and
+    the metrics (binary: accuracy at 0.5 and at the best-F1 threshold, AUROC, AUPRC;
+    continuous: MSE, MAE, R2).
+    """
     model.eval()
-
-    total_KLD_loss_A = 0
-    total_KLD_loss_B = 0
-    total_OT_loss = 0
-    total_classification_loss = 0
-    num_batches = 0
-
-    all_logits = []
-    all_labels = []
-
+    outcome_type = cfg['model'].get('type', 'continuous')
+    preds, parts = [], []
     with torch.no_grad():
-        for batch_A, batch_B in zip(data_loader_A, data_loader_B):
-
-            data_A, labels_A = batch_A
-            data_B, labels_B = batch_B
-
-            data_A = data_A.to(device)
-            data_B = data_B.to(device)
-            labels_A = labels_A.to(device)
-            labels_B = labels_B.to(device)
-
-            data_A_tensors = data_A.clone().detach().requires_grad_(True)
-            data_B_tensors = data_B.clone().detach().requires_grad_(True)
-
-            nets, logits = model(data_A_tensors, data_B_tensors)
-            (z_A, mu_A, logsigma_A), (z_B, mu_B, logsigma_B) = nets
-
-            KLD_loss_A = KL_divergence(mu_A, logsigma_A)
-            KLD_loss_B = KL_divergence(mu_B, logsigma_B)
-
-            # Late fusion
-            if fusion == 'late':
-                logits_A, logits_B = logits
-                logits = torch.cat((logits_A, logits_B), dim=0)
-                labels = torch.cat((labels_A, labels_B), dim=0)
-            else: labels = labels_A.float()
-
-            OT_loss = LOT(mu_A, logsigma_A, mu_B, logsigma_B)
-
-            # Check if logits is a list
-            if isinstance(logits, list):
-                # Convert list of tensors to a single tensor
-                logits = torch.cat(logits, dim=1)
-
-            # Unpack logits
-            classification_logits = logits.squeeze()
-
-            # Reshape labels to match the shape of classification_logits
-            labels = labels.float().view(-1, 1)
-
-            classification_loss = criterion(classification_logits, labels.squeeze())
-
-            # Accumulate losses
-            total_KLD_loss_A += KLD_loss_A.item()
-            total_KLD_loss_B += KLD_loss_B.item()
-            total_OT_loss += OT_loss.item()
-            total_classification_loss += classification_loss.item()
-            num_batches += 1
-
-            # Store logits and labels for accuracy calculation
-            all_logits.append(classification_logits)
-            all_labels.append(labels)
-
-    avg_KLD_loss_A = total_KLD_loss_A / num_batches
-    avg_KLD_loss_B = total_KLD_loss_B / num_batches
-    avg_OT_loss = total_OT_loss / num_batches
-    avg_classification_loss = total_classification_loss / num_batches
-
-    # Concatenate all logits and labels
-    all_logits = torch.cat(all_logits, dim=0).squeeze()
-    all_labels = torch.cat(all_labels, dim=0).squeeze()
-
-    # Calculate prediction probabilities
-    predicted_probs = torch.sigmoid(all_logits)
-
-    # Compute Precision-Recall curve
-    precision, recall, thresholds = precision_recall_curve(all_labels.cpu().numpy(), predicted_probs.cpu().numpy())
-    
-    # Calculate F1 scores for each threshold
-    f1_scores = [f1_score(all_labels.cpu().numpy(), predicted_probs.cpu().numpy() >= t) for t in thresholds]
-
-    # Find the threshold with the maximum F1 score
-    best_threshold_index = np.argmax(f1_scores)
-    best_threshold = thresholds[best_threshold_index]
-    best_f1_score = f1_scores[best_threshold_index]
-
-    # Debugging threshold choice
-    # print(f"Thresholds and their F1 scores: {list(zip(thresholds, f1_scores))}")
-    print(f"Best threshold: {best_threshold}, Best F1 score: {best_f1_score}")
-
-    # Make predictions using the best threshold
-    predicted_classes = (predicted_probs >= best_threshold).to(torch.int)
-
-    # Calculate final accuracy
-    correct_predictions = (predicted_classes == all_labels).sum().item()
-    accuracy = correct_predictions / len(all_labels)
-
-    # Debugging threshold choice
-    # print(f"Thresholds and their F1 scores: {list(zip(thresholds, f1_scores))}")
-    print(f"Best threshold: {best_threshold}, Best F1 score: {best_f1_score}")
-
-    return avg_KLD_loss_A, avg_KLD_loss_B, avg_OT_loss, avg_classification_loss, all_logits, all_labels, accuracy
+        for start in range(0, len(indices), batch_size):
+            idx = indices[start:start + batch_size]
+            enc, prediction = model([torch.from_numpy(x[idx]).to(device) for x in xs])
+            preds.append(prediction.cpu().numpy())
+            row = {f'kld_{j}': float(kld(mu, lv)) for j, (_, mu, lv) in enumerate(enc, start=1)}
+            if len(enc) == 2:
+                row['lot'] = float(lot_loss(enc[0], enc[1], cfg))
+            parts.append(row)
+    result = np.concatenate(preds)
+    target = y[indices]
+    if outcome_type == 'continuous':
+        loss = float(np.mean((result - target) ** 2))
+    else:
+        loss = float(nn.functional.binary_cross_entropy_with_logits(torch.from_numpy(result), torch.from_numpy(target)).item())
+    summary = {k: float(np.mean([p[k] for p in parts])) for k in parts[0]}
+    summary['prediction_loss'] = loss
+    summary.update(metrics(target, result, outcome_type))
+    if outcome_type == 'binary' and len(np.unique(target)) == 2:
+        summary.update(best_f1(target, 1 / (1 + np.exp(-np.clip(result, -80, 80)))))
+    return result, summary
 
 
+def evaluate_late(model, xs, ys, indices, batch_size, device, cfg):
+    """Late fusion: evaluate each view on its own samples (indices: one array per view).
 
-def evaluate_holdout_continuous(model, data_loader_A, data_loader_B, criterion, fusion, device):
+    Returns the predictions of each view and a summary: the KLD of each view (mean over its
+    batches), the LOT between the two views (mean over pairs of batches), and the prediction loss
+    and metrics over the samples of all views together.
+    """
     model.eval()
-
-    total_KLD_loss_A = 0
-    total_KLD_loss_B = 0
-    total_OT_loss = 0
-    total_classification_loss = 0
-    num_batches = 0
-
-    all_logits = []
-    all_labels = []
-
+    outcome_type = cfg['model'].get('type', 'continuous')
+    preds, klds, encs = [], [], []
     with torch.no_grad():
-        for batch_A, batch_B in zip(data_loader_A, data_loader_B):
-
-            data_A, labels_A = batch_A
-            data_B, labels_B = batch_B
-
-            data_A = data_A.to(device)
-            data_B = data_B.to(device)
-            labels_A = labels_A.to(device)
-            labels_B = labels_B.to(device)
-
-            data_A = torch.tensor(data_A, dtype=torch.float32)
-            data_B = torch.tensor(data_B, dtype=torch.float32)
-
-            data_A_tensors = data_A.clone().detach().requires_grad_(True)
-            data_B_tensors = data_B.clone().detach().requires_grad_(True)
-
-            nets, logits = model(data_A_tensors, data_B_tensors)
-            (z_A, mu_A, logsigma_A), (z_B, mu_B, logsigma_B) = nets
-
-            KLD_loss_A = KL_divergence(mu_A, logsigma_A)
-            KLD_loss_B = KL_divergence(mu_B, logsigma_B)
-            OT_loss = LOT(mu_A, logsigma_A, mu_B, logsigma_B)
-
-            # Late fusion
-            if fusion == 'late':
-                logits_A, logits_B = logits
-                logits = torch.cat((logits_A, logits_B), dim=0)
-                labels = torch.cat((labels_A, labels_B), dim=0)
-            else: labels = labels_A.float()
-
-            # Check if logits is a list
-            if isinstance(logits, list):
-                # Convert list of tensors to a single tensor
-                logits = torch.cat(logits, dim=1)
-
-            # Unpack logits
-            classification_logits = logits.squeeze()
-
-            # Reshape labels to match the shape of classification_logits
-            labels = labels.float().view(-1, 1)
-
-            classification_loss = criterion(classification_logits, labels.squeeze())
-            
-            # Accumulate losses
-            total_KLD_loss_A += KLD_loss_A.item()
-            total_KLD_loss_B += KLD_loss_B.item()
-            total_OT_loss += OT_loss.item()
-            total_classification_loss += classification_loss.item()
-            num_batches += 1
-
-            # Store logits and labels for accuracy
-            all_logits.append(classification_logits)
-            all_labels.append(labels)
-
-    avg_KLD_loss_A = total_KLD_loss_A / num_batches
-    avg_KLD_loss_B = total_KLD_loss_B / num_batches
-    avg_OT_loss = total_OT_loss / num_batches
-    avg_classification_loss = total_classification_loss / num_batches
-
-    all_logits = torch.cat(all_logits, dim=0).squeeze()
-    all_labels = torch.cat(all_labels, dim=0).squeeze()
-
-    return avg_KLD_loss_A, avg_KLD_loss_B, avg_OT_loss, avg_classification_loss, all_logits, all_labels
-
+        for j, (x, rows) in enumerate(zip(xs, indices)):
+            p, k, e = [], [], []
+            for start in range(0, len(rows), batch_size):
+                idx = rows[start:start + batch_size]
+                enc, prediction = model.view_forward(j, torch.from_numpy(x[idx]).to(device))
+                p.append(prediction.cpu().numpy()); k.append(float(kld(enc[1], enc[2]))); e.append(enc)
+            preds.append(np.concatenate(p)); klds.append(float(np.mean(k))); encs.append(e)
+        summary = {f'kld_{j}': v for j, v in enumerate(klds, start=1)}
+        if len(xs) == 2:
+            summary['lot'] = float(np.mean([float(lot_loss(a, b, cfg)) for a, b in zip(*encs)]))
+    result = np.concatenate(preds)
+    target = np.concatenate([y[rows] for y, rows in zip(ys, indices)])
+    if outcome_type == 'continuous':
+        summary['prediction_loss'] = float(np.mean((result - target) ** 2))
+    else:
+        summary['prediction_loss'] = float(nn.functional.binary_cross_entropy_with_logits(torch.from_numpy(result), torch.from_numpy(target)).item())
+    summary.update(metrics(target, result, outcome_type))
+    if outcome_type == 'binary' and len(np.unique(target)) == 2:
+        summary.update(best_f1(target, 1 / (1 + np.exp(-np.clip(result, -80, 80)))))
+    return preds, summary

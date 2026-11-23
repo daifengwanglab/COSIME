@@ -1,0 +1,57 @@
+{
+  "data": {
+    "mode": "multi",
+    "modalities": [
+      {
+        "name": "view_A",
+        "path": "Example/binary_high_late_x1.csv"
+      },
+      {
+        "name": "view_B",
+        "path": "Example/binary_high_late_x2.csv"
+      }
+    ],
+    "outcome_column": "y",
+    "id_column": null,
+    "first_column_is_id": true
+  },
+  "model": {
+    "type": "binary",
+    "predictor": "regression",
+    "fusion": "late",
+    "ot_method": "LOT",
+    "dim": 100,
+    "dropout": 0.5
+  },
+  "lot": {
+    "reg": 0.1,
+    "reg_m": 1.0,
+    "num_iterations": 10,
+    "batch_size": 16,
+    "domain_regularization": false
+  },
+  "training": {
+    "batch_size": 32,
+    "epochs": 100,
+    "optimizer": "adam",
+    "learning_rate": 0.001,
+    "learning_gamma": 0.99,
+    "earlystop_patience": 40,
+    "delta": 0.001,
+    "decay": 0.001,
+    "splits": 5,
+    "seed": 100,
+    "cv_seed": 42,
+    "holdout_fraction": 0.25,
+    "device": "auto"
+  },
+  "loss": {
+    "kld_1_weight": 0.02,
+    "kld_2_weight": 0.02,
+    "ot_weight": 0.02,
+    "cl_weight": 0.9
+  },
+  "output": {
+    "directory": "outputs/COSIME"
+  }
+}

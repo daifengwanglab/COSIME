@@ -7,3 +7,4 @@ tqdm
 matplotlib 
 argparse 
 torchmetrics
+pyyaml

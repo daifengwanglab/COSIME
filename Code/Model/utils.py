@@ -1,27 +1,9 @@
-import logging
+"""Evaluation metrics."""
+import numpy as np
+from sklearn.metrics import mean_squared_error,mean_absolute_error,r2_score,roc_auc_score,average_precision_score,accuracy_score
 
-# Early Stopper class for early stopping during training
-class EarlyStopper:
-    def __init__(self, patience=10, min_delta=0.0):
-        self.patience = patience
-        self.min_delta = min_delta
-        self.best_loss = float('inf')
-        self.counter = 0
-        self.early_stop = False
-
-    def __call__(self, val_loss):
-        if val_loss < self.best_loss - self.min_delta:
-            self.best_loss = val_loss
-            self.counter = 0
-        else:
-            self.counter += 1
-            if self.counter >= self.patience:
-                self.early_stop = True
-
-        return self.early_stop
-
-
-# Function for logging the results during training
-def log_results(epoch, loss, epochs, log_path, **kwargs):
-    logging.basicConfig(filename=log_path, level=logging.INFO)
-    logging.info(f"Epoch [{epoch}/{epochs}], Loss: {loss.item()}")
+def metrics(y, prediction, outcome_type):
+    if outcome_type == 'continuous':
+        return {'mse': float(mean_squared_error(y, prediction)), 'mae': float(mean_absolute_error(y, prediction)), 'r2': float(r2_score(y, prediction)) if len(y) > 1 else None}
+    prob = 1 / (1 + np.exp(-np.clip(prediction, -80, 80)))
+    return {'accuracy': float(accuracy_score(y, prob >= .5)), 'auroc': float(roc_auc_score(y, prob)) if len(np.unique(y)) == 2 else None, 'auprc': float(average_precision_score(y, prob)) if len(np.unique(y)) == 2 else None}

@@ -1,0 +1,27 @@
+# python Code/Explainer/COSIME_FI.py --config Code/Explainer/COSIME_FI.yml > COSIME_FI.log 2>&1
+# Relative paths are resolved from the repository root. Inputs are written by training.
+data:
+  paths: outputs/COSIME/FI_holdout_processed.csv
+model:
+  best_model_path: outputs/COSIME/best_model.pt
+output:
+  directory: outputs/COSIME/FI
+compute:
+  device: auto                 # auto, cpu, cuda or mps
+  batch_size: 256              # samples per batch
+feature_importance:
+  enabled: true
+  permutations: 50
+  seed: 42
+  mask: mean                   # value a masked feature takes: mean (mean over the samples;
+                               # most common value for features with < 4 distinct values) or zero
+interaction:
+  enabled: true
+  method: shapley_taylor       # shapley_taylor or integrated_hessian
+  permutations: 50             # shapley_taylor
+  integration_steps: 16        # integrated_hessian
+  seed: 42
+late_fusion:                   # used only when the views share no samples
+  unmatched_strategy: independent_pairs
+  pairing_seed: 42
+  # num_reference_pairs: 1000  # default: the largest number of samples in a view

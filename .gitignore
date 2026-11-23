@@ -6,3 +6,6 @@
 
 # Local run files
 run.bat
+
+# Run outputs
+outputs/

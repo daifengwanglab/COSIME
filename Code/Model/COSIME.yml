@@ -1,0 +1,52 @@
+# python Code/Model/main.py --config Code/Model/COSIME.yml > COSIME.log 2>&1
+# Relative paths are resolved from the repository root.
+data:
+  mode: multi                  # single or multi
+  modalities:                  # one entry per view (single: exactly one; multi: two or more)
+    - name: view_A
+      path: Example/binary_high_late_x1.csv
+    - name: view_B
+      path: Example/binary_high_late_x2.csv
+  outcome_column: y
+  id_column: null              # name of the sample-ID column; null uses first_column_is_id
+  first_column_is_id: true
+  # Late fusion: each view has its own samples and is split into holdout and folds on its own.
+  # Optional: holdout rows of each view, one CSV of row positions per view (1-based by default)
+  # holdout_indices: [path/to/holdout_indices_A.csv, path/to/holdout_indices_B.csv]
+  # holdout_indices_base: 1
+model:
+  type: binary                 # binary or continuous
+  predictor: regression        # regression or NN
+  fusion: late                 # early (same samples in every view) or late (each view its own samples)
+  ot_method: LOT
+  dim: 100                     # latent dimension
+  dropout: 0.5
+lot:
+  reg: 0.1
+  reg_m: 1.0
+  num_iterations: 10
+  batch_size: 16               # samples per OT block; null uses full-batch LOT
+  domain_regularization: false
+training:
+  batch_size: 32
+  epochs: 100
+  optimizer: adam              # adam (decay = L2 penalty) or adamw (decoupled weight decay)
+  learning_rate: 0.001
+  learning_gamma: 0.99
+  # lr_factor: 0.5             # learning rate x lr_factor after lr_patience epochs without
+  # lr_patience: 10            # improvement (defaults: learning_gamma, earlystop_patience)
+  earlystop_patience: 40
+  delta: 0.001
+  decay: 0.001
+  splits: 5                    # cross-validation folds
+  seed: 100
+  cv_seed: 42
+  holdout_fraction: 0.25
+  device: auto                 # auto, cpu or cuda
+loss:
+  kld_1_weight: 0.02
+  kld_2_weight: 0.02
+  ot_weight: 0.02
+  cl_weight: 0.9               # prediction loss
+output:
+  directory: outputs/COSIME
